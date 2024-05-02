@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    color: black;
+    background-color: aliceblue;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        color: skyblue;
+        background-color: #343434;
+    }
+}
+
+body {
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
