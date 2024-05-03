@@ -1,6 +1,6 @@
 # emtipp24
 
-![Logo emtipp24](/entipp24.png)
+![Logo emtipp24](/docs/emtipp24.png)
 
 ## Features
 
