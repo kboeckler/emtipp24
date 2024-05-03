@@ -1,23 +1,17 @@
-import {readMatch} from "@/app/repo";
+import {Team} from "@/app/team";
 
 export class Match {
     id: string
     start?: Date
+    teamA?: Team
+    teamB?: Team
 
-    constructor(id: string, start?: Date) {
-        this.id = id
-        this.start = start
+    constructor(id: string, start?: Date, teamA?: Team, teamB?: Team) {
+        this.id = id;
+        this.start = start;
+        this.teamA = teamA;
+        this.teamB = teamB;
     }
 }
 
-interface MatchItemProps {
-    id: string
-}
 
-export default async function MatchItem({id}: MatchItemProps) {
-    const match = await readMatch(id)
-
-    return (
-        <span>Start: {match?.start?.toDateString()} | Id: {match?.id}</span>
-    )
-}

@@ -17,6 +17,10 @@
 body {
 }
 
+h1 {
+    font-size: 2em;
+}
+
 @layer utilities {
     .text-balance {
         text-wrap: balance;
