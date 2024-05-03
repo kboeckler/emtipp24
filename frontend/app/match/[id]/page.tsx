@@ -1,11 +1,15 @@
 import Link from 'next/link'
-import MatchItem from "@/app/matches/match-item";
-import {readMatch} from "@/app/repo";
+import {readBetsForMatch, readMatch} from "@/app/repo";
 
-export default async function MatchDetails({ params }: { params: { id: string } }) {
-    const { id } = params
+export default async function MatchDetails({params}: { params: { id: string } }) {
+    const {id} = params
 
     const match = await readMatch(id)
+    const bets = await readBetsForMatch(id)
+
+    const doSome = function() {
+        alert('Hallo')
+    }
 
     return (
         <main>
@@ -17,6 +21,15 @@ export default async function MatchDetails({ params }: { params: { id: string } 
             <div>Id: {match?.id}</div>
             <div>Start: {match?.start?.toDateString()}</div>
             <div>{match?.teamA?.name} gegen {match?.teamB?.name}</div>
+            <form>
+                <input type={"number"} name={"teamA"}></input>
+                <input type={"number"} name={"teamB"}></input>
+                <button type={"submit"} >Speichern</button>
+            </form>
+            {bets.map((bet) => (
+                    <li key={bet.id}>{bet.teamA} : {bet.teamB} ({bet.reward})</li>
+                )
+            )}
         </main>
     );
 }
