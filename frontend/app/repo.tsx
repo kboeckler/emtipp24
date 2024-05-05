@@ -19,3 +19,10 @@ export async function readBetsForMatch(id: string): Promise<Bet[]> {
     const bets = [new Bet("betIdXY", id, "meinsa", 2, 1, 9), new Bet("troetId", id, "erda", 0, 1, 0)]
     return Promise.resolve(bets)
 }
+
+// POST /matches/{id}/bets bzw. PUT /matches/{id}/bets/{id}
+export async function saveBet(bet: Bet): Promise<Bet> {
+    console.log('Saving:')
+    console.log(bet)
+    return Promise.resolve(bet)
+}
