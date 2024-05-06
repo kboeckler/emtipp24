@@ -4,7 +4,7 @@ import Link from 'next/link'
 import {insertBet, readBetsForMatch, readMatch, updateBet} from "@/app/repo";
 import {Match} from "@/app/match";
 import {Bet} from "@/app/bet";
-import {ChangeEvent, FormEvent, useEffect, useState} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 
 export default function MatchDetails({params}: { params: { id: string } }) {
     const {id} = params
@@ -17,7 +17,6 @@ export default function MatchDetails({params}: { params: { id: string } }) {
     useEffect(() => {
         readMatch(id).then(matchResult => {
             setMatch(matchResult)
-            setMyBet(new Bet(undefined, match?.id!!, "meinsa", 0, 0))
         })
         readBetsForMatch(id).then(betsResult => setBets(betsResult))
     }, [id, match?.id])
@@ -29,7 +28,7 @@ export default function MatchDetails({params}: { params: { id: string } }) {
         setMyBetA(teamAValue)
 
         let savingBet = myBet
-        if (savingBet == undefined || savingBet.id == undefined) {
+        if (savingBet == undefined) {
             savingBet = new Bet(undefined, match?.id!!, "meinsa", teamAValue, 0)
             savingBet = await insertBet(savingBet)
         } else {
@@ -49,7 +48,7 @@ export default function MatchDetails({params}: { params: { id: string } }) {
         setMyBetB(teamBValue)
 
         let savingBet = myBet
-        if (savingBet == undefined || savingBet.id == undefined) {
+        if (savingBet == undefined) {
             savingBet = new Bet(undefined, match?.id!!, "meinsa", 0, teamBValue)
             savingBet = await insertBet(savingBet)
         } else {
