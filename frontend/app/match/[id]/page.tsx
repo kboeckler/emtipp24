@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import {readBetsForMatch, readMatch, saveBet} from "@/app/repo";
+import {insertBet, readBetsForMatch, readMatch, updateBet} from "@/app/repo";
 import {Match} from "@/app/match";
 import {Bet} from "@/app/bet";
 import {ChangeEvent, FormEvent, useEffect, useState} from "react";
@@ -10,7 +10,9 @@ export default function MatchDetails({params}: { params: { id: string } }) {
     const {id} = params
     const [match, setMatch] = useState<Match>();
     const [bets, setBets] = useState<Bet[]>([]);
-    const [myBet, setMyBet] = useState<Bet>(new Bet(undefined, "", "meinsa", 0, 0));
+    const [myBet, setMyBet] = useState<Bet>();
+    const [myBetA, setMyBetA] = useState(0)
+    const [myBetB, setMyBetB] = useState(0)
 
     useEffect(() => {
         readMatch(id).then(matchResult => {
@@ -18,25 +20,45 @@ export default function MatchDetails({params}: { params: { id: string } }) {
             setMyBet(new Bet(undefined, match?.id!!, "meinsa", 0, 0))
         })
         readBetsForMatch(id).then(betsResult => setBets(betsResult))
-    })
+    }, [id, match?.id])
 
-    const teamAChanged = async function( e: FormEvent) {
+    const teamAChanged = async function (e: ChangeEvent) {
         const inputField = e.target as HTMLInputElement;
         const teamAValue = Number(inputField.value)
         console.log('A: ' + teamAValue)
-        myBet.teamA = teamAValue
+        setMyBetA(teamAValue)
 
-        await saveBet(myBet!!)
+        let savingBet = myBet
+        if (savingBet == undefined || savingBet.id == undefined) {
+            savingBet = new Bet(undefined, match?.id!!, "meinsa", teamAValue, 0)
+            savingBet = await insertBet(savingBet)
+        } else {
+            savingBet.teamA = teamAValue
+            savingBet = await updateBet(savingBet)
+        }
+
+        setMyBet(savingBet)
+
         e.preventDefault()
     }
 
-    const teamBChanged = async function( e: ChangeEvent) {
+    const teamBChanged = async function (e: ChangeEvent) {
         const inputField = e.target as HTMLInputElement;
         const teamBValue = Number(inputField.value)
         console.log('B: ' + teamBValue)
-        myBet.teamB = teamBValue
+        setMyBetB(teamBValue)
 
-        await saveBet(myBet!!)
+        let savingBet = myBet
+        if (savingBet == undefined || savingBet.id == undefined) {
+            savingBet = new Bet(undefined, match?.id!!, "meinsa", 0, teamBValue)
+            savingBet = await insertBet(savingBet)
+        } else {
+            savingBet.teamB = teamBValue
+            savingBet = await updateBet(savingBet)
+        }
+
+        setMyBet(savingBet)
+
         e.preventDefault()
     }
 
@@ -51,8 +73,8 @@ export default function MatchDetails({params}: { params: { id: string } }) {
             <div>Start: {match?.start?.toDateString()}</div>
             <div>{match?.teamA?.name} gegen {match?.teamB?.name}</div>
             <form>
-                <input type={"number"} name={"teamA"} onInput={teamAChanged} value={myBet?.teamA}></input>
-                <input type={"number"} name={"teamB"} onChange={teamBChanged} value={myBet?.teamB}></input>
+                <input type={"number"} name={"teamA"} onChange={teamAChanged} value={myBetA}></input>
+                <input type={"number"} name={"teamB"} onChange={teamBChanged} value={myBetB}></input>
                 <button type={"submit"}>Speichern</button>
             </form>
             {bets.map((bet) => (
