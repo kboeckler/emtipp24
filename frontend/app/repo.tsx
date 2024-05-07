@@ -25,6 +25,8 @@ export async function insertBet(bet: Bet): Promise<Bet> {
     console.log('Inserting new bet:')
     console.log(bet)
     bet.id = "updatedId"
+    await new Promise(resolve => setTimeout(resolve, 1000)); // 3 sec
+    console.log('Done Insert')
     return Promise.resolve(bet)
 }
 
@@ -32,5 +34,7 @@ export async function insertBet(bet: Bet): Promise<Bet> {
 export async function updateBet(bet: Bet): Promise<Bet> {
     console.log('Update existing bet with id ' + bet.id + ':')
     console.log(bet)
+    await new Promise(resolve => setTimeout(resolve, 1000)); // 3 sec
+    console.log('Done Update')
     return Promise.resolve(bet)
 }

@@ -13,6 +13,7 @@ export default function MatchDetails({params}: { params: { id: string } }) {
     const [myBet, setMyBet] = useState<Bet>();
     const [myBetA, setMyBetA] = useState(0)
     const [myBetB, setMyBetB] = useState(0)
+    const [saving, setSaving] = useState(false)
 
     useEffect(() => {
         readMatch(id).then(matchResult => {
@@ -26,6 +27,7 @@ export default function MatchDetails({params}: { params: { id: string } }) {
         const teamAValue = Number(inputField.value)
         console.log('A: ' + teamAValue)
         setMyBetA(teamAValue)
+        setSaving(true)
 
         let savingBet = myBet
         if (savingBet == undefined) {
@@ -37,8 +39,7 @@ export default function MatchDetails({params}: { params: { id: string } }) {
         }
 
         setMyBet(savingBet)
-
-        e.preventDefault()
+        setSaving(false)
     }
 
     const teamBChanged = async function (e: ChangeEvent) {
@@ -46,6 +47,7 @@ export default function MatchDetails({params}: { params: { id: string } }) {
         const teamBValue = Number(inputField.value)
         console.log('B: ' + teamBValue)
         setMyBetB(teamBValue)
+        setSaving(true)
 
         let savingBet = myBet
         if (savingBet == undefined) {
@@ -57,8 +59,7 @@ export default function MatchDetails({params}: { params: { id: string } }) {
         }
 
         setMyBet(savingBet)
-
-        e.preventDefault()
+        setSaving(false)
     }
 
     return (
@@ -72,9 +73,8 @@ export default function MatchDetails({params}: { params: { id: string } }) {
             <div>Start: {match?.start?.toDateString()}</div>
             <div>{match?.teamA?.name} gegen {match?.teamB?.name}</div>
             <form>
-                <input type={"number"} name={"teamA"} onChange={teamAChanged} value={myBetA}></input>
-                <input type={"number"} name={"teamB"} onChange={teamBChanged} value={myBetB}></input>
-                <button type={"submit"}>Speichern</button>
+                <input type={"number"} name={"teamA"} onChange={teamAChanged} value={myBetA} disabled={saving}></input>
+                <input type={"number"} name={"teamB"} onChange={teamBChanged} value={myBetB} disabled={saving}></input>
             </form>
             {bets.map((bet) => (
                     <li key={bet.id}>{bet.teamA} : {bet.teamB} ({bet.reward})</li>
