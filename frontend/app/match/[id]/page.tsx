@@ -4,7 +4,7 @@ import Link from 'next/link'
 import {insertBet, readBetsForMatch, readMatch, updateBet} from "@/app/repo";
 import {Match} from "@/app/match";
 import {Bet} from "@/app/bet";
-import {ChangeEvent, useEffect, useState} from "react";
+import {ChangeEvent, useEffect, useRef, useState} from "react";
 
 export default function MatchDetails({params}: { params: { id: string } }) {
     const {id} = params
@@ -15,12 +15,17 @@ export default function MatchDetails({params}: { params: { id: string } }) {
     const [myBetB, setMyBetB] = useState(0)
     const [saving, setSaving] = useState(false)
 
+    const initialized = useRef(false)
+
     useEffect(() => {
-        readMatch(id).then(matchResult => {
-            setMatch(matchResult)
-        })
-        readBetsForMatch(id).then(betsResult => setBets(betsResult))
-    }, [id, match?.id])
+        if (!initialized.current) {
+            initialized.current = true
+            readMatch(id).then(matchResult => {
+                setMatch(matchResult)
+            })
+            readBetsForMatch(id).then(betsResult => setBets(betsResult))
+        }
+    }, [id])
 
     const teamAChanged = async function (e: ChangeEvent) {
         const inputField = e.target as HTMLInputElement;
