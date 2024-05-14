@@ -1,0 +1,7 @@
+- [x] Bootstrap UI
+- [x] Write match list view
+- [x] Write match detail view
+- [x] Write bet input form
+- [x] Show bet eval list
+- [ ] Bootstrap Backend
+- [ ] Wire UI and Backend

@@ -8,7 +8,7 @@ export async function findAllMatches(): Promise<Match[]> {
     return Promise.resolve(matches)
 }
 
-// GET /matches{id}
+// GET /matches/{id}
 export async function readMatch(id: string): Promise<Match | undefined> {
     const match: Match = new Match(id, new Date(), new Team("atat", "A-Team"), new Team("b1234-5678", "Blub"))
     return Promise.resolve(match)
@@ -30,7 +30,7 @@ export async function insertBet(bet: Bet): Promise<Bet> {
     return Promise.resolve(bet)
 }
 
-// bzw. PUT /matches/{id}/bets/{id}
+// PUT /matches/{id}/bets/{id}
 export async function updateBet(bet: Bet): Promise<Bet> {
     console.log('Update existing bet with id ' + bet.id + ':')
     console.log(bet)
