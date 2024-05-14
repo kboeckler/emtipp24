@@ -4,8 +4,16 @@ import {Bet} from "@/app/bet";
 
 // GET /matches
 export async function findAllMatches(): Promise<Match[]> {
-    const matches: Match[] = [new Match("apfel"), new Match("birne")]
-    return Promise.resolve(matches)
+    return fetch('http://localhost:8080/matches')
+        .then(res => res.json())
+        .then(data => {
+            const matches: Match[] = []
+            for (const item of data) {
+                const matchItem: Match = item
+                matches.push(matchItem)
+            }
+            return matches
+        })
 }
 
 // GET /matches/{id}
