@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import {findAllMatches} from "@/app/repo";
+import {findAllMatches} from "@/app/actions/repo";
 import MatchItem from "@/app/matches/match-item";
 
 export default async function Match() {

@@ -1,7 +1,7 @@
-- [x] Bootstrap UI
-- [x] Write match list view
-- [x] Write match detail view
-- [x] Write bet input form
-- [x] Show bet eval list
 - [x] Bootstrap Backend
 - [x] Wire UI and Backend
+- [x] Implement REST endpoints
+- [x] Access REST from UI
+- [ ] Map nested REST to JS Model
+- [ ] Rework server and client components
+- [ ] Add state to Controllers

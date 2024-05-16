@@ -1,4 +1,4 @@
-import {readMatch} from "@/app/repo";
+import {readMatch} from "@/app/actions/repo";
 
 interface MatchItemProps {
     id: string
