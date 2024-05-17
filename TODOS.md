@@ -1,7 +1,7 @@
-- [x] Bootstrap Backend
 - [x] Wire UI and Backend
 - [x] Implement REST endpoints
 - [x] Access REST from UI
-- [ ] Map nested REST to JS Model
+- [x] Disable Cache in frontend
 - [ ] Rework server and client components
+- [ ] Access remaining REST from UI
 - [ ] Add state to Controllers

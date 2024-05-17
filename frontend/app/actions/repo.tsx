@@ -1,9 +1,11 @@
 import {Match} from "@/app/match";
 import {Bet} from "@/app/bet";
 
+const NO_STORE: RequestInit = {cache: 'no-store'};
+
 // GET /matches
 export async function findAllMatches(): Promise<Match[]> {
-    return fetch('http://localhost:8080/matches')
+    return fetch('http://localhost:8080/matches', NO_STORE)
         .then(res => res.json())
         .then(data => {
             const matches: Match[] = []
@@ -16,13 +18,8 @@ export async function findAllMatches(): Promise<Match[]> {
 }
 
 export async function readMatch(id: string): Promise<Match | undefined> {
-    return fetch('http://localhost:8080/matches/' + id)
+    return fetch('http://localhost:8080/matches/' + id, NO_STORE)
         .then(res => res.json())
-        .then(
-            res => {
-                console.log(res)
-                return res
-            })
         .then(data => {
             const match: Match = data
             if (match.start != undefined) {
