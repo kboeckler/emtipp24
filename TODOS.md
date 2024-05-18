@@ -2,6 +2,6 @@
 - [x] Implement REST endpoints
 - [x] Access REST from UI
 - [x] Disable Cache in frontend
+- [x] Access remaining REST from UI
 - [ ] Rework server and client components
-- [ ] Access remaining REST from UI
 - [ ] Add state to Controllers

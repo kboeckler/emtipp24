@@ -13,5 +13,3 @@ export class Match {
         this.teamB = teamB;
     }
 }
-
-

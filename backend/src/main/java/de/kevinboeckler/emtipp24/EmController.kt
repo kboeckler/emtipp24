@@ -24,8 +24,8 @@ class EmController {
     @GetMapping("/matches/{matchId}/bets")
     fun betsForMatch(@PathVariable matchId: String): List<Bet> {
         return listOf(
-            Bet("betId", matchId, "seinsa", 7, 9, 1),
-            Bet("betId", matchId, "seinsa", 2, 0, null)
+            Bet("betId1", matchId, "seinsa", 7, 9, 1),
+            Bet("betId2", matchId, "seinsa", 2, 0, null)
         )
     }
 

@@ -2,16 +2,14 @@
 
 import {Match} from "@/app/match";
 import {Bet} from "@/app/bet";
-import {useState} from "react";
 
 interface MatchDetailsProps {
     match: Match
+    bets: Bet[]
 }
 
-export default function MatchDetails({match}: MatchDetailsProps) {
+export default function MatchDetails({match, bets}: MatchDetailsProps) {
     const id = match.id
-
-    const [bets, setBets] = useState<Bet[]>([]);
 
     return (
         <div>

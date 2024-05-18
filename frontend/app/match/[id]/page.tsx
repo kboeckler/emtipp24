@@ -2,7 +2,6 @@ import MatchDetails from "@/app/match/[id]/match-details";
 import {readBetsForMatch, readMatch} from "@/app/actions/repo";
 import Link from "next/link";
 import MatchBetForm from "@/app/match/[id]/match-bet-form";
-import {Bet} from "@/app/bet";
 
 export default async function MatchDetailsPage({params}: { params: { id: string } }) {
     const {id} = params
@@ -17,7 +16,7 @@ export default async function MatchDetailsPage({params}: { params: { id: string 
             <Link href={"/matches"}>Match List</Link><br/>
             <Link href={`/match/${id}`}>Match {id}</Link><br/>
             <hr/>
-            <MatchDetails match={match!!}></MatchDetails>
+            <MatchDetails match={match!!} bets={bets}></MatchDetails>
             <MatchBetForm match={match!!}></MatchBetForm>
         </main>
     );

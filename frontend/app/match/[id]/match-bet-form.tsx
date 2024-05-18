@@ -22,10 +22,10 @@ export default function MatchBetForm({match}: MatchBetFormProps) {
         console.log('A: ' + teamAValue)
         setMyBetA(teamAValue)
         setSaving(true)
-
+ 
         let savingBet = myBet
         if (savingBet == undefined) {
-            savingBet = new Bet(undefined, match?.id!!, "meinsa", teamAValue, 0)
+            savingBet = {matchId: match?.id!!, playerId: "meinsa", teamA: teamAValue, teamB: 0}
             savingBet = await insertBet(savingBet)
         } else {
             savingBet.teamA = teamAValue
@@ -45,7 +45,7 @@ export default function MatchBetForm({match}: MatchBetFormProps) {
 
         let savingBet = myBet
         if (savingBet == undefined) {
-            savingBet = new Bet(undefined, match?.id!!, "meinsa", 0, teamBValue)
+            savingBet = {matchId: match?.id!!, playerId: "meinsa", teamA: 0, teamB: teamBValue}
             savingBet = await insertBet(savingBet)
         } else {
             savingBet.teamB = teamBValue
