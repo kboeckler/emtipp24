@@ -6,4 +6,3 @@ export type Bet = {
     teamB: number
     reward?: number
 }
-
