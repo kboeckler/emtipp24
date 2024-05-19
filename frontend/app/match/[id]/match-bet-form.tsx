@@ -2,19 +2,27 @@
 
 import {Match} from "@/app/match";
 import {Bet} from "@/app/bet";
-import {ChangeEvent, useState} from "react";
-import {insertBet, updateBet} from "@/app/actions/repo";
+import {ChangeEvent, useEffect, useRef, useState} from "react";
+import {insertBet, readMatch, updateBet} from "@/app/actions/repo";
 
 interface MatchBetFormProps {
-    match: Match
+    matchId: string
 }
 
-export default function MatchBetForm({match}: MatchBetFormProps) {
-
+export default function MatchBetForm({matchId}: MatchBetFormProps) {
+    const [match, setMatch] = useState<Match>();
     const [myBet, setMyBet] = useState<Bet>();
     const [myBetA, setMyBetA] = useState(0)
     const [myBetB, setMyBetB] = useState(0)
     const [saving, setSaving] = useState(false)
+
+    const initialized = useRef(false)
+    useEffect(() => {
+        if (!initialized.current) {
+            initialized.current = true
+            readMatch(matchId).then(matches => setMatch(matches))
+        }
+    }, [matchId])
 
     const teamAChanged = async function (e: ChangeEvent) {
         const inputField = e.target as HTMLInputElement;
@@ -22,7 +30,7 @@ export default function MatchBetForm({match}: MatchBetFormProps) {
         console.log('A: ' + teamAValue)
         setMyBetA(teamAValue)
         setSaving(true)
- 
+
         let savingBet = myBet
         if (savingBet == undefined) {
             savingBet = {matchId: match?.id!!, playerId: "meinsa", teamA: teamAValue, teamB: 0}

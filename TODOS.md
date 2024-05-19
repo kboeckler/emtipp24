@@ -1,7 +1,7 @@
-- [x] Wire UI and Backend
-- [x] Implement REST endpoints
 - [x] Access REST from UI
 - [x] Disable Cache in frontend
 - [x] Access remaining REST from UI
-- [ ] Rework server and client components
+- [x] Rework server and client components
 - [ ] Add state to Controllers
+- [ ] Add authentication
+- [ ] Add persistence
