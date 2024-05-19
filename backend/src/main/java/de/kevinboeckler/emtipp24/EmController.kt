@@ -1,38 +1,51 @@
 package de.kevinboeckler.emtipp24
 
+import jakarta.annotation.PostConstruct
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.OffsetDateTime
+import java.util.*
 
 @RestController
 class EmController {
 
+    val matches: MutableMap<String, Match> = mutableMapOf()
+    val bets: MutableMap<String, MutableList<Bet>> = mutableMapOf()
+
+    @PostConstruct
+    fun init() {
+        matches["testId"] = Match("testId", OffsetDateTime.now(), Team("A", "ein A"), Team("B", "ein B"))
+        matches["anotherMatchId"] = Match(
+            "anotherMatchId",
+            OffsetDateTime.now(),
+            Team("apfel", "Apfel"),
+            Team("birne", "Birne")
+        )
+    }
+
     @GetMapping("/matches")
     fun matches(): List<Match> {
-        return listOf(
-            Match("testId", OffsetDateTime.now(), Team("A", "ein A"), Team("B", "ein B")),
-            Match("anotherMatchId", OffsetDateTime.now(), Team("apfel", "Apfel"), Team("birne", "Birne"))
-        )
+        return matches.values.toList()
     }
 
     @GetMapping("/matches/{id}")
     fun match(@PathVariable id: String): Match? {
-        return Match(id, OffsetDateTime.now(), Team("a", "konkretes A"), Team("b", "konkretes B"))
+        return matches[id]
     }
 
     @GetMapping("/matches/{matchId}/bets")
     fun betsForMatch(@PathVariable matchId: String): List<Bet> {
-        return listOf(
-            Bet("betId1", matchId, "seinsa", 7, 9, 1),
-            Bet("betId2", matchId, "seinsa", 2, 0, null)
-        )
+        return bets[matchId] ?: emptyList()
     }
 
     @PostMapping("/matches/{matchId}/bets")
     fun createBetForMatch(@PathVariable matchId: String, @RequestBody bet: Bet): ResponseEntity<Bet> {
         println("Created: $bet")
-        val resultBet = bet.copy(id = "postedId")
+        val resultBet = bet.copy(id = UUID.randomUUID().toString())
+        val existingBets = bets[matchId] ?: mutableListOf()
+        existingBets.add(resultBet)
+        bets[matchId] = existingBets
         return ResponseEntity(resultBet, HttpStatus.CREATED)
     }
 
@@ -43,6 +56,10 @@ class EmController {
         @RequestBody bet: Bet
     ): ResponseEntity<Bet> {
         println("Updated: $bet")
+        val existingBets = bets[matchId] ?: mutableListOf()
+        existingBets.removeIf { it.id == betId }
+        existingBets.add(bet)
+        bets[matchId] = existingBets
         return ResponseEntity(bet, HttpStatus.OK)
     }
 
