@@ -5,17 +5,13 @@ import {Bet} from "@/app/bet";
 import {useEffect, useRef, useState} from "react";
 import {readBetsForMatch, readMatch} from "@/app/actions/repo";
 
-interface MatchDetailsProps {
-    matchId: string
-}
-
-export default function MatchDetails({matchId}: MatchDetailsProps) {
+export default function MatchDetails({matchId}: { matchId: string }) {
     const [match, setMatch] = useState<Match>()
     const [bets, setBets] = useState<Bet[]>([])
 
     const initialized = useRef(false)
     useEffect(() => {
-        if (!initialized.current){
+        if (!initialized.current) {
             initialized.current = true
             readMatch(matchId).then(matches => setMatch(matches))
             readBetsForMatch(matchId).then(bets => setBets(bets))
