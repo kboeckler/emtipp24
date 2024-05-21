@@ -1,4 +1,6 @@
 import type {NextAuthConfig} from 'next-auth';
+import {redirect} from "next/navigation";
+import {next} from "sucrase/dist/types/parser/tokenizer";
 
 export const authConfig = {
     pages: {
@@ -6,15 +8,10 @@ export const authConfig = {
     },
     callbacks: {
         authorized({auth, request: {nextUrl}}) {
-            console.log(!!auth?.user)
+            //return Response.redirect(new URL('/dashboard', nextUrl));
+            console.log(nextUrl)
             return !!auth?.user;
         },
-        session: async ({ session, token }) => {
-            if (session?.user) {
-                session.user.id = token.sub;
-            }
-            return session;
-        }
     },
     providers: [], // Add providers with an empty array for now
 } satisfies NextAuthConfig;
