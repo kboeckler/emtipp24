@@ -3,5 +3,5 @@
 - [x] Access remaining REST from UI
 - [x] Rework server and client components
 - [x] Add state to Controllers
-- [ ] Add authentication
+- [x] Add authentication
 - [ ] Add persistence

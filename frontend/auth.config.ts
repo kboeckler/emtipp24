@@ -1,7 +1,7 @@
 import type {DefaultSession, NextAuthConfig} from 'next-auth';
 
 export interface TokenSession extends DefaultSession {
-    accessToken: string;
+    idToken: string
 }
 
 export const authConfig = {
@@ -18,12 +18,12 @@ export const authConfig = {
             return {
                 user: session.user,
                 expires: session.expires,
-                accessToken: token.accessToken + ""
+                idToken: token.idToken + "",
             }
         },
         jwt({token, trigger, session, account}) {
             if (account?.provider === "google") {
-                return {...token, accessToken: account?.access_token}
+                return {...token, idToken: account?.id_token}
             }
             return token
         }
