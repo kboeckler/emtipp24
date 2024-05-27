@@ -2,50 +2,77 @@
 
 import {Match} from "@/app/match";
 import {Bet} from "@/app/bet";
+import {auth} from "@/auth";
+import {TokenSession} from "@/auth.config";
 
-const NO_STORE: RequestInit = {cache: 'no-store'};
+async function cfg(cache?: RequestCache): Promise<RequestInit> {
+    const token = (await getAuth()).accessToken
+    return {
+        cache: cache ? cache : 'no-cache',
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    }
+}
+
+export async function isAuthenticated(): Promise<boolean> {
+    return getAuth().then(res => {
+        return res.accessToken != null
+    })
+}
+
+async function getAuth(): Promise<TokenSession> {
+    const tokenSession = await auth() as TokenSession;
+    if (tokenSession != null) {
+        return tokenSession
+    }
+    return Promise.reject("Error getting authentication")
+}
 
 // GET /matches
 export async function findAllMatches(): Promise<Match[]> {
-    return fetch('http://localhost:8080/matches', NO_STORE)
-        .then(res => res.json())
-        .then(data => {
-            const matches: Match[] = []
-            for (const item of data) {
-                const matchItem: Match = item
-                matches.push(matchItem)
-            }
-            return matches
-        })
+    return cfg()
+        .then(cfg => fetch('http://localhost:8080/matches', cfg)
+            .then(res => res.json())
+            .then(data => {
+                const matches: Match[] = []
+                for (const item of data) {
+                    const matchItem: Match = item
+                    matches.push(matchItem)
+                }
+                return matches
+            }))
 }
 
 // GET /matches/{id}
 export async function readMatch(id: string): Promise<Match | undefined> {
-    return fetch('http://localhost:8080/matches/' + id, NO_STORE)
-        .then(res => res.json())
-        .then(data => {
-            const match: Match = data
-            if (match.start != undefined) {
-                match.start = new Date(match.start)
-            } else {
-                match.start = undefined
-            }
-            return match
-        })
+    return cfg()
+        .then(cfg => fetch('http://localhost:8080/matches/' + id, cfg)
+            .then(res => res.json())
+            .then(data => {
+                const match: Match = data
+                if (match.start != undefined) {
+                    match.start = new Date(match.start)
+                } else {
+                    match.start = undefined
+                }
+                return match
+            }))
 }
 
 // GET /matches/{id}/bets
 export async function readBetsForMatch(id: string): Promise<Bet[]> {
-    return fetch('http://localhost:8080/matches/' + id + '/bets', NO_STORE)
-        .then(res => res.json())
-        .then(data => {
-            const bets: Bet[] = []
-            for (const item of data) {
-                const bet: Bet = item
-                bets.push(bet)
-            }
-            return bets
-        })
+    return cfg()
+        .then(cfg => fetch('http://localhost:8080/matches/' + id + '/bets', cfg)
+            .then(res => res.json())
+            .then(data => {
+                const bets: Bet[] = []
+                for (const item of data) {
+                    const bet: Bet = item
+                    bets.push(bet)
+                }
+                return bets
+            }))
 }
 
 // POST /matches/{id}/bets

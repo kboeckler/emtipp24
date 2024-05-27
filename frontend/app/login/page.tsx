@@ -1,12 +1,8 @@
-import {signIn} from "@/auth";
 import Link from "next/link";
 import LogoutForm from "@/app/login/logout-form";
+import LoginForm from "@/app/login/login-form";
 
 export default function LoginPage() {
-    const login = async function () {
-        "use server"
-        await signIn("google")
-    }
 
     return (
         <main>
@@ -15,11 +11,7 @@ export default function LoginPage() {
             <Link href="/">Home</Link><br/>
             <Link href={"/matches"}>Match List</Link><br/>
             <hr/>
-            <form
-                action={login}
-            >
-                <button type="submit">Signin with Google</button>
-            </form>
+            <LoginForm></LoginForm>
             <LogoutForm></LogoutForm>
         </main>
     );

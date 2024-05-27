@@ -1,10 +1,10 @@
 "use client"
 
-import {logout} from "@/app/login/helper";
+import {login} from "@/app/login/helper";
 import {useEffect, useState} from "react";
 import {isAuthenticated} from "@/app/actions/repo";
 
-export default function LogoutForm() {
+export default function LoginForm() {
     const [isLoggedIn, setLoggedIn] = useState<boolean>(false)
 
     useEffect(() => {
@@ -13,12 +13,12 @@ export default function LogoutForm() {
         })
     }, [])
 
-    const renderFormIfLoggedIn = function () {
-        if (isLoggedIn) {
+    const renderFormIfNotLoggedIn = function () {
+        if (!isLoggedIn) {
             return (<form
-                action={logout}
+                action={login}
             >
-                <button type="submit">Logout from Google</button>
+                <button type="submit">Signin with Google</button>
             </form>)
         } else
             return ("")
@@ -26,6 +26,6 @@ export default function LogoutForm() {
 
     return (
         <div>
-            {renderFormIfLoggedIn()}
+            {renderFormIfNotLoggedIn()}
         </div>)
 }
