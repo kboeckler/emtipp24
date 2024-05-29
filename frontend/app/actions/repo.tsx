@@ -17,7 +17,9 @@ async function cfg(cache?: RequestCache): Promise<RequestInit> {
 
 export async function isAuthenticated(): Promise<boolean> {
     return getAuth().then(res => {
-        return res.idToken != null
+        const expiresString = res ? res.expires : "";
+        const expired: boolean =  new Date().getTime() > new Date(expiresString).getTime()
+        return !expired && res.idToken != null
     }, _ => {
         return false
     })

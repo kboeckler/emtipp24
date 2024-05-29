@@ -8,7 +8,6 @@ export default async function MatchDetailsPage({params}: { params: { id: string 
     return (
         <main>
             <h1>Match Detail</h1>
-            <Link href={"/login"}>Login</Link><br/>
             <Link href="/">Home</Link><br/>
             <Link href={"/matches"}>Match List</Link><br/>
             <Link href={`/match/${id}`}>Match {id}</Link><br/>

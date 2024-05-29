@@ -8,7 +8,6 @@ export default async function Match() {
     return (
         <main>
             <h1>Match List</h1>
-            <Link href={"/login"}>Login</Link><br/>
             <Link href="/">Home</Link><br/>
             <Link href={"/matches"}>Match List</Link><br/>
             <hr/>
