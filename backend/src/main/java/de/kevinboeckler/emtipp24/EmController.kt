@@ -8,7 +8,7 @@ import java.time.OffsetDateTime
 import java.util.*
 
 @RestController
-class EmController {
+class EmController(val authenticationInfo: AuthenticationInfo) {
 
     val matches: MutableMap<String, Match> = mutableMapOf()
     val bets: MutableMap<String, MutableList<Bet>> = mutableMapOf()
@@ -26,6 +26,9 @@ class EmController {
 
     @GetMapping("/matches")
     fun matches(): List<Match> {
+        println(authenticationInfo.email)
+        println(authenticationInfo.name)
+        println(authenticationInfo.picture)
         return matches.values.toList()
     }
 
