@@ -21,8 +21,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.security:spring-security-oauth2-jose")
+
+    implementation("org.hibernate:hibernate-core:5.2.15.Final")
+    implementation("com.h2database:h2:1.4.196")
+
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.springframework.boot:spring-boot-devtools")

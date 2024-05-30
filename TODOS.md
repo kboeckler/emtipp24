@@ -1,7 +1,6 @@
-- [x] Access REST from UI
-- [x] Disable Cache in frontend
-- [x] Access remaining REST from UI
 - [x] Rework server and client components
 - [x] Add state to Controllers
 - [x] Add authentication
-- [ ] Add persistence
+- [x] Add persistence
+- [ ] Add entities
+- [ ] Init matches

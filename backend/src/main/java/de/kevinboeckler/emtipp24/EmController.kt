@@ -1,41 +1,32 @@
 package de.kevinboeckler.emtipp24
 
-import jakarta.annotation.PostConstruct
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.time.OffsetDateTime
 import java.util.*
 
 @RestController
-class EmController(val authenticationInfo: AuthenticationInfo) {
+class EmController(val authenticationInfo: AuthenticationInfo, val matchRepo: MatchRepository) {
 
-    val matches: MutableMap<String, Match> = mutableMapOf()
     val bets: MutableMap<String, MutableList<Bet>> = mutableMapOf()
-
-    @PostConstruct
-    fun init() {
-        matches["testId"] = Match("testId", OffsetDateTime.now(), Team("A", "ein A"), Team("B", "ein B"))
-        matches["anotherMatchId"] = Match(
-            "anotherMatchId",
-            OffsetDateTime.now(),
-            Team("apfel", "Apfel"),
-            Team("birne", "Birne")
-        )
-    }
 
     @GetMapping("/matches")
     fun matches(): List<Match> {
         println(authenticationInfo.email)
         println(authenticationInfo.name)
         println(authenticationInfo.picture)
-        return matches.values.toList()
+        return matchRepo.findAll()
+            .map(this::map)
+            .toList()
     }
-
     @GetMapping("/matches/{id}")
     fun match(@PathVariable id: String): Match? {
-        return matches[id]
+        return matchRepo.findByIdOrNull(id)?.let(this::map)
     }
+
+    private fun map(match: MatchEntity) =
+        Match(match.id, match.start, Team("${match.teamA}", "${match.teamA}"), Team("${match.teamB}", "${match.teamB}"))
 
     @GetMapping("/matches/{matchId}/bets")
     fun betsForMatch(@PathVariable matchId: String): List<Bet> {
