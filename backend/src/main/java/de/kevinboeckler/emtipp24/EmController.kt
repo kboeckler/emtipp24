@@ -20,13 +20,16 @@ class EmController(val authenticationInfo: AuthenticationInfo, val matchRepo: Ma
             .map(this::map)
             .toList()
     }
+
     @GetMapping("/matches/{id}")
     fun match(@PathVariable id: String): Match? {
         return matchRepo.findByIdOrNull(id)?.let(this::map)
     }
 
     private fun map(match: MatchEntity) =
-        Match(match.id, match.start, Team("${match.teamA}", "${match.teamA}"), Team("${match.teamB}", "${match.teamB}"))
+        Match(match.id, match.start, match.teamA?.let(this::mapTeam), match.teamB?.let(this::mapTeam))
+
+    private fun mapTeam(team: TeamEntity) = Team(team.id, team.name)
 
     @GetMapping("/matches/{matchId}/bets")
     fun betsForMatch(@PathVariable matchId: String): List<Bet> {
