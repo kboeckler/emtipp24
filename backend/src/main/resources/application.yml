@@ -1,6 +1,7 @@
 spring:
   security:
     oauth2:
+      enabled: true
       resourceserver:
         jwt:
           issuer-uri: https://accounts.google.com

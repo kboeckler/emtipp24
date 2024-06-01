@@ -3,4 +3,4 @@
 - [x] Add authentication
 - [x] Add persistence
 - [ ] Add entities
-- [ ] Init matches
+- [ ] Init data
