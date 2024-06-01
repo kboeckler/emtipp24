@@ -3,7 +3,7 @@
 import {Match} from "@/app/match";
 import {Bet} from "@/app/bet";
 import {ChangeEvent, useEffect, useRef, useState} from "react";
-import {insertBet, readMatch, updateBet} from "@/app/actions/repo";
+import {insertBet, readBetsForMatch, readMatch, updateBet} from "@/app/actions/repo";
 
 export default function MatchBetForm({matchId}: { matchId: string }) {
     const [match, setMatch] = useState<Match>();
@@ -17,6 +17,16 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
         if (!initialized.current) {
             initialized.current = true
             readMatch(matchId).then(matches => setMatch(matches))
+            readBetsForMatch(matchId).then(bets => {
+                for (const bet of bets) {
+                    if (bet.playerId == "meinsa") {
+                        setMyBet(bet)
+                        setMyBetA(bet.teamA)
+                        setMyBetB(bet.teamB)
+                        break
+                    }
+                }
+            })
         }
     }, [matchId])
 

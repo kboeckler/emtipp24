@@ -2,5 +2,5 @@
 - [x] Add state to Controllers
 - [x] Add authentication
 - [x] Add persistence
-- [ ] Add entities
-- [ ] Init data
+- [x] Add entities
+- [x] Init data
