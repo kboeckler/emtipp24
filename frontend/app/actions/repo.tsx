@@ -4,6 +4,7 @@ import {Match} from "@/app/match";
 import {Bet} from "@/app/bet";
 import {auth} from "@/auth";
 import {TokenSession} from "@/auth.config";
+import {Player} from "@/app/player";
 
 async function cfg(cache?: RequestCache): Promise<RequestInit> {
     const token = (await getAuth()).idToken
@@ -18,7 +19,7 @@ async function cfg(cache?: RequestCache): Promise<RequestInit> {
 export async function isAuthenticated(): Promise<boolean> {
     return getAuth().then(res => {
         const expiresString = res ? res.expires : "";
-        const expired: boolean =  new Date().getTime() > new Date(expiresString).getTime()
+        const expired: boolean = new Date().getTime() > new Date(expiresString).getTime()
         return !expired && res.idToken != null
     }, _ => {
         return false
@@ -33,8 +34,25 @@ async function getAuth(): Promise<TokenSession> {
     return Promise.reject("Error getting authentication")
 }
 
+export async function findCurrentPlayer(): Promise<Player | undefined> {
+    return cfg().then(cfg => fetch('http://localhost:8080/currentplayer', cfg))
+        .then(res => res.json())
+        .then(data => {
+            return data as Player
+        })
+}
+
 // GET /matches
 export async function findAllMatches(): Promise<Match[]> {
+    // TODO remove this admin endpoint call
+    cfg().then(cfg => fetch('http://localhost:8080/admin', cfg))
+        .then(res => {
+            if (res.ok) {
+                console.log(res.status)
+            } else {
+                console.log(res)
+            }
+        })
     return cfg()
         .then(cfg => fetch('http://localhost:8080/matches', cfg))
         .then(res => res.json())

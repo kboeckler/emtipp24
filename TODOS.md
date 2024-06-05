@@ -1,6 +1,7 @@
-- [x] Rework server and client components
-- [x] Add state to Controllers
-- [x] Add authentication
-- [x] Add persistence
+- [x] Add persistence          
 - [x] Add entities
 - [x] Init data
+- [x] Handle token 
+- [ ] Register player
+- [ ] Detect admin
+- [ ] Add admin features

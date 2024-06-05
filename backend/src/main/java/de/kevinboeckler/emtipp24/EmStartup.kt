@@ -8,6 +8,8 @@ import de.kevinboeckler.emtipp24.round.Round
 import de.kevinboeckler.emtipp24.round.RoundRepository
 import de.kevinboeckler.emtipp24.team.Team
 import de.kevinboeckler.emtipp24.team.TeamRepository
+import de.kevinboeckler.emtipp24.user.ExternalUser
+import de.kevinboeckler.emtipp24.user.ExternalUserRepository
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
@@ -18,13 +20,20 @@ class EmStartup(
     val matchRepo: MatchRepository,
     val teamRepo: TeamRepository,
     val roundRepo: RoundRepository,
-    val playerRepo: PlayerRepository
+    val playerRepo: PlayerRepository,
+    val userRepo: ExternalUserRepository
 ) :
     ApplicationRunner {
     override fun run(args: ApplicationArguments?) {
-        val playerMeinsa = Player("meinsa", "meinsa@tippspiel.de")
-        val playerSeinsa = Player("seinsa", "seinsa@tippspiel.de")
-        playerRepo.saveAll(listOf(playerMeinsa, playerSeinsa))
+        val playerMeinsa = Player("meinsa")
+        val playerFraxxor = Player("frax", true)
+        val playerSeinsa = Player("seinsa")
+        playerRepo.saveAll(listOf(playerMeinsa, playerSeinsa, playerFraxxor))
+
+        val userMeinsa = ExternalUser("a1", "meinsa@tippspiel.de", playerMeinsa)
+        val userFraxxor = ExternalUser("a2", "fraxxor@gmail.com", playerFraxxor)
+        val userSeinsa = ExternalUser("b9", "seinsa@tippspiel.de", playerSeinsa)
+        userRepo.saveAll(listOf(userMeinsa, userSeinsa, userFraxxor))
 
         val roundA = Round("a", "Gruppe A")
         val roundB = Round("B", "Gruppe B")

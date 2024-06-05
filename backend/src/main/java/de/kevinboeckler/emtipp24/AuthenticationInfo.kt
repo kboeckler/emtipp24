@@ -1,5 +1,7 @@
 package de.kevinboeckler.emtipp24;
 
+import de.kevinboeckler.emtipp24.player.Player
+import de.kevinboeckler.emtipp24.user.ExternalUserRepository
 import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContextHolder
@@ -9,7 +11,13 @@ import org.springframework.web.context.annotation.RequestScope
 
 @Component
 @RequestScope
-data class AuthenticationInfo(var email: String = "", var name: String = "", var picture: String = "") {
+data class AuthenticationInfo(
+    val userRepo: ExternalUserRepository
+) {
+    var email: String = ""
+    var name: String = ""
+    var picture: String = ""
+    var player: Player? = null
 
     @Value("\${spring.security.oauth2.enabled}")
     var oAuth2Enabled: Boolean = true
@@ -21,6 +29,8 @@ data class AuthenticationInfo(var email: String = "", var name: String = "", var
             email = jwt.claims["email"] as String
             name = jwt.claims["name"] as String
             picture = jwt.claims["picture"] as String
+            val user = userRepo.findByEmail(email)
+            player = user?.player ?: player
         } else {
             email = "guest@user.com"
             name = "Guestuser"
@@ -29,5 +39,3 @@ data class AuthenticationInfo(var email: String = "", var name: String = "", var
     }
 
 }
-
-data class Authentication(val email: String) {}

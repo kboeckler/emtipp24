@@ -9,6 +9,6 @@ class Player(
     @Id
     val id: String,
 
-    val email: String
+    val admin: Boolean = false
 
 )

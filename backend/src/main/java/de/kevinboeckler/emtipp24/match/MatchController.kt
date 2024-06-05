@@ -11,15 +11,16 @@ import de.kevinboeckler.emtipp24.team.TeamModel
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
+import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
 class MatchController(
-    val authenticationInfo: AuthenticationInfo,
     val matchRepo: MatchRepository,
     val betRepo: BetRepository,
-    val playerRepo: PlayerRepository,
+    val playerRepo: PlayerRepository
 ) {
 
     @GetMapping("/matches")
