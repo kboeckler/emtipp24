@@ -3,6 +3,7 @@ import SignInForm from "@/app/login/sign-in-form";
 import CurrentPlayer from "@/app/player/current-player";
 
 export default function Home() {
+
     return (
         <main>
             <h1>EM Tippspiel 24</h1>

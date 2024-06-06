@@ -1,7 +1,6 @@
-- [x] Add persistence          
-- [x] Add entities
 - [x] Init data
 - [x] Handle token 
-- [ ] Register player
-- [ ] Detect admin
+- [x] Register player
+- [x] Detect admin               
 - [ ] Add admin features
+- [ ] Add default features

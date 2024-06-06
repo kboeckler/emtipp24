@@ -37,8 +37,28 @@ async function getAuth(): Promise<TokenSession> {
 export async function findCurrentPlayer(): Promise<Player | undefined> {
     return cfg().then(cfg => fetch('http://localhost:8080/currentplayer', cfg))
         .then(res => res.json())
+        .catch(_ => undefined)
         .then(data => {
-            return data as Player
+            if (data) {
+                return data as Player
+            }
+            return undefined
+        })
+}
+
+export async function insertCurrentPlayer(): Promise<Player> {
+    return fetch('http://localhost:8080/players', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + (await getAuth()).idToken
+        },
+        body: JSON.stringify({email: (await getAuth())?.user?.email})
+    })
+        .then(res => res.json())
+        .then(data => {
+            const player: Player = data
+            return player
         })
 }
 

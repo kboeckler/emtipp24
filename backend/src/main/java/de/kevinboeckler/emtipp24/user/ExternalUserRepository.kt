@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository
 interface ExternalUserRepository : CrudRepository<ExternalUser, String> {
 
     fun findByEmail(email: String): ExternalUser?
+
+    fun existsByEmail(email: String): Boolean
 }

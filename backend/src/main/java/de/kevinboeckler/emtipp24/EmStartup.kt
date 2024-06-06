@@ -25,16 +25,6 @@ class EmStartup(
 ) :
     ApplicationRunner {
     override fun run(args: ApplicationArguments?) {
-        val playerMeinsa = Player("meinsa")
-        val playerFraxxor = Player("frax", true)
-        val playerSeinsa = Player("seinsa")
-        playerRepo.saveAll(listOf(playerMeinsa, playerSeinsa, playerFraxxor))
-
-        val userMeinsa = ExternalUser("a1", "meinsa@tippspiel.de", playerMeinsa)
-        val userFraxxor = ExternalUser("a2", "fraxxor@gmail.com", playerFraxxor)
-        val userSeinsa = ExternalUser("b9", "seinsa@tippspiel.de", playerSeinsa)
-        userRepo.saveAll(listOf(userMeinsa, userSeinsa, userFraxxor))
-
         val roundA = Round("a", "Gruppe A")
         val roundB = Round("B", "Gruppe B")
         roundRepo.saveAll(listOf(roundA, roundB))
