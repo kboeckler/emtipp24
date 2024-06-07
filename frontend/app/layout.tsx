@@ -1,6 +1,9 @@
 import type {Metadata} from "next";
 import {Inter} from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
+import CurrentPlayer from "@/app/player/current-player";
+import SignInForm from "@/app/login/sign-in-form";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -16,7 +19,22 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <head>
+            <title>EM-Tipp24</title>
+        </head>
+        <body className={inter.className}>
+
+        <nav>
+            <Link href="/">Home</Link>
+            <Link href={"/matches"}>Matches</Link>
+            <CurrentPlayer></CurrentPlayer>
+            <SignInForm></SignInForm>
+        </nav>
+
+        <h1>EM Tippspiel 24</h1>
+
+        {children}
+        </body>
         </html>
     );
 }

@@ -7,10 +7,7 @@ export default async function Match() {
 
     return (
         <main>
-            <h1>Match List</h1>
-            <Link href="/">Home</Link><br/>
-            <Link href={"/matches"}>Match List</Link><br/>
-            <hr/>
+            <h2>Match List</h2>
             <ul>
                 {matches.map((match, index) => (
                         <li key={match.id}><Link href={`/match/${match.id}`}><MatchItem id={match.id}></MatchItem></Link>

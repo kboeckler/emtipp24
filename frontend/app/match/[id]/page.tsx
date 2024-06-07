@@ -1,5 +1,4 @@
 import MatchDetails from "@/app/match/[id]/match-details";
-import Link from "next/link";
 import MatchBetForm from "@/app/match/[id]/match-bet-form";
 
 export default async function MatchDetailsPage({params}: { params: { id: string } }) {
@@ -7,11 +6,7 @@ export default async function MatchDetailsPage({params}: { params: { id: string 
 
     return (
         <main>
-            <h1>Match Detail</h1>
-            <Link href="/">Home</Link><br/>
-            <Link href={"/matches"}>Match List</Link><br/>
-            <Link href={`/match/${id}`}>Match {id}</Link><br/>
-            <hr/>
+            <h2>Match Detail</h2>
             <MatchDetails matchId={id}></MatchDetails>
             <MatchBetForm matchId={id}></MatchBetForm>
         </main>
