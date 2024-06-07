@@ -39,14 +39,14 @@ class EmStartup(
             "testId", OffsetDateTime.now(),
             roundA,
             team1,
-            team2, null, null, null, null
+            team2, null, null, null, null, null, null
         )
         val match2 = Match(
             "anotherMatchId", OffsetDateTime.now(),
             roundB,
             team3,
             team4,
-            null, null, null, null
+            null, null, null, null, 2, 1
         )
 
         matchRepo.saveAll(listOf(match1, match2))

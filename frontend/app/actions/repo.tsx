@@ -1,6 +1,6 @@
 'use server'
 
-import {Match} from "@/app/match";
+import {Match} from "@/app/matches/match";
 import {Bet} from "@/app/bet";
 import {auth} from "@/auth";
 import {TokenSession} from "@/auth.config";
@@ -64,17 +64,23 @@ export async function insertCurrentPlayer(): Promise<Player> {
 
 // GET /matches
 export async function findAllMatches(): Promise<Match[]> {
-    // TODO remove this admin endpoint call
-    cfg().then(cfg => fetch('http://localhost:8080/admin', cfg))
-        .then(res => {
-            if (res.ok) {
-                console.log(res.status)
-            } else {
-                console.log(res)
-            }
-        })
     return cfg()
         .then(cfg => fetch('http://localhost:8080/matches', cfg))
+        .then(res => res.json())
+        .then(data => {
+            const matches: Match[] = []
+            for (const item of data) {
+                const matchItem: Match = item
+                matches.push(matchItem)
+            }
+            return matches
+        })
+}
+
+// GET /matches/?=roundId=%s
+export async function findMatchesForRound(roundId: String): Promise<Match[]> {
+    return cfg()
+        .then(cfg => fetch('http://localhost:8080/matches?roundId=' + roundId, cfg))
         .then(res => res.json())
         .then(data => {
             const matches: Match[] = []
@@ -99,6 +105,23 @@ export async function readMatch(id: string): Promise<Match | undefined> {
                 match.start = undefined
             }
             return match
+        })
+}
+
+// PUT /matches/{id}
+export async function updateMatch(match: Match): Promise<Match> {
+    return fetch('http://localhost:8080/matches/' + match.id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + (await getAuth()).idToken
+        },
+        body: JSON.stringify(match)
+    })
+        .then(res => res.json())
+        .then(data => {
+            const bet: Match = data
+            return bet
         })
 }
 

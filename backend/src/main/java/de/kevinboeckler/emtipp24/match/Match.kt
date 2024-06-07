@@ -35,6 +35,10 @@ class Match(
     @JoinColumn(name = "roundB")
     val roundB: Round?,
 
-    val placementB: Int?
+    val placementB: Int?,
+
+    val scoreA: Int?,
+
+    val scoreB: Int?
 
 )

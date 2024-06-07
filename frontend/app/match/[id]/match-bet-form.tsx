@@ -1,6 +1,6 @@
 'use client'
 
-import {Match} from "@/app/match";
+import {Match} from "@/app/matches/match";
 import {Bet} from "@/app/bet";
 import {ChangeEvent, useEffect, useRef, useState} from "react";
 import {insertBet, readBetsForMatch, readMatch, updateBet} from "@/app/actions/repo";

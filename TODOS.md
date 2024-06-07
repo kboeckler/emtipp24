@@ -1,6 +1,7 @@
-- [x] Init data
 - [x] Handle token 
 - [x] Register player
 - [x] Detect admin               
-- [ ] Add admin features
-- [ ] Add default features
+- [x] Admin completes match
+- [ ] Add rounds endpoint
+- [ ] Add player overview
+- [ ] Admin completes round

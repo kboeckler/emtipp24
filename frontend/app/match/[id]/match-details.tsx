@@ -1,6 +1,6 @@
 'use client'
 
-import {Match} from "@/app/match";
+import {Match} from "@/app/matches/match";
 import {Bet} from "@/app/bet";
 import {useEffect, useRef, useState} from "react";
 import {readBetsForMatch, readMatch} from "@/app/actions/repo";
@@ -22,7 +22,9 @@ export default function MatchDetails({matchId}: { matchId: string }) {
         <div>
             <div>Id: {match?.id}</div>
             <div>Start: {match?.start?.toDateString()}</div>
+            <div>Gruppe: {match?.round.name}</div>
             <div>{match?.teamA?.name} gegen {match?.teamB?.name}</div>
+            <div>{match?.scoreA} : {match?.scoreB}</div>
             {bets.map((bet) => (
                     <li key={bet.id}>{bet.teamA} : {bet.teamB} ({bet.reward})</li>
                 )
