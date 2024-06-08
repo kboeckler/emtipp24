@@ -16,6 +16,16 @@ async function cfg(cache?: RequestCache): Promise<RequestInit> {
     }
 }
 
+export async function MyPlayer(): Promise<Player | undefined> {
+    return isAuthenticated().then(async isAuthenticated => {
+        if (isAuthenticated) {
+            return await findCurrentPlayer();
+        } else {
+            return undefined
+        }
+    })
+}
+
 export async function isAuthenticated(): Promise<boolean> {
     return getAuth().then(res => {
         const expiresString = res ? res.expires : "";

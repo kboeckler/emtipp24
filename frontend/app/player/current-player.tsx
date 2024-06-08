@@ -1,7 +1,7 @@
 "use client"
 
 import {useEffect, useRef, useState} from "react";
-import {findCurrentPlayer, insertCurrentPlayer, isAuthenticated} from "@/app/actions/repo";
+import {insertCurrentPlayer, MyPlayer} from "@/app/actions/repo";
 import {Player} from "@/app/player";
 
 export default function CurrentPlayer() {
@@ -11,15 +11,11 @@ export default function CurrentPlayer() {
     useEffect(() => {
         if (!initialized.current) {
             initialized.current = true
-            isAuthenticated().then(isAuthenticated => {
-                if (isAuthenticated) {
-                    findCurrentPlayer().then(playerOrUndefined => {
-                        if (playerOrUndefined === undefined) {
-                            insertCurrentPlayer().then(insertedPlayer => setCurrentPlayer(insertedPlayer))
-                        } else {
-                            setCurrentPlayer(playerOrUndefined)
-                        }
-                    })
+            MyPlayer().then(playerOrUndefined => {
+                if (playerOrUndefined === undefined) {
+                    insertCurrentPlayer().then(insertedPlayer => setCurrentPlayer(insertedPlayer))
+                } else {
+                    setCurrentPlayer(playerOrUndefined)
                 }
             })
         }

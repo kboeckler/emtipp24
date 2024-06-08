@@ -2,7 +2,7 @@
 
 import {Match} from "@/app/matches/match";
 import {ChangeEvent, useEffect, useRef, useState} from "react";
-import {findCurrentPlayer, insertCurrentPlayer, isAuthenticated, readMatch, updateMatch} from "@/app/actions/repo";
+import {MyPlayer, readMatch, updateMatch} from "@/app/actions/repo";
 import {Player} from "@/app/player";
 
 export default function MatchScoreForm({matchId}: { matchId: string }) {
@@ -16,17 +16,7 @@ export default function MatchScoreForm({matchId}: { matchId: string }) {
     useEffect(() => {
         if (!initialized.current) {
             initialized.current = true
-            isAuthenticated().then(isAuthenticated => {
-                if (isAuthenticated) {
-                    findCurrentPlayer().then(playerOrUndefined => {
-                        if (playerOrUndefined === undefined) {
-                            insertCurrentPlayer().then(insertedPlayer => setCurrentPlayer(insertedPlayer))
-                        } else {
-                            setCurrentPlayer(playerOrUndefined)
-                        }
-                    })
-                }
-            })
+            MyPlayer().then(setCurrentPlayer)
             readMatch(matchId).then(match => {
                 if (match?.scoreA == null) {
                     match!!.scoreA = 0

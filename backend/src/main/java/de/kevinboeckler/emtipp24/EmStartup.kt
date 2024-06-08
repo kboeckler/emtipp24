@@ -19,9 +19,7 @@ import java.time.OffsetDateTime
 class EmStartup(
     val matchRepo: MatchRepository,
     val teamRepo: TeamRepository,
-    val roundRepo: RoundRepository,
-    val playerRepo: PlayerRepository,
-    val userRepo: ExternalUserRepository
+    val roundRepo: RoundRepository
 ) :
     ApplicationRunner {
     override fun run(args: ApplicationArguments?) {

@@ -5,3 +5,4 @@
 - [ ] Add rounds endpoint
 - [ ] Add player overview
 - [ ] Admin completes round
+- [ ] Add round bets

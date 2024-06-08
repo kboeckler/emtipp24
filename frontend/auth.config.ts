@@ -1,5 +1,4 @@
 import type {DefaultSession, NextAuthConfig} from 'next-auth';
-import {findCurrentPlayer} from "@/app/actions/repo";
 
 export interface TokenSession extends DefaultSession {
     idToken: string
