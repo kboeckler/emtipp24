@@ -6,6 +6,7 @@ import {auth} from "@/auth";
 import {TokenSession} from "@/auth.config";
 import {Player} from "@/app/player";
 import {Round} from "@/app/round";
+import {RoundBet} from "@/app/round-bet";
 
 async function cfg(cache?: RequestCache): Promise<RequestInit> {
     const token = (await getAuth()).idToken
@@ -224,5 +225,54 @@ export async function readRound(id: string): Promise<Round | undefined> {
         .then(data => {
             const round: Round = data
             return round
+        })
+}
+
+// GET /rounds/{id}/bets
+export async function readBetsForRound(id: string): Promise<RoundBet[]> {
+    return cfg()
+        .then(cfg => fetch('http://localhost:8080/rounds/' + id + '/bets', cfg))
+        .then(res => res.json())
+        .then(data => {
+            const bets: RoundBet[] = []
+            for (const item of data) {
+                const bet: RoundBet = item
+                bets.push(bet)
+            }
+            return bets
+        })
+}
+
+// POST /rounds/{id}/bets
+export async function insertRoundBet(bet: RoundBet): Promise<RoundBet> {
+    return fetch('http://localhost:8080/rounds/' + bet.roundId + '/bets', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + (await getAuth()).idToken
+        },
+        body: JSON.stringify(bet)
+    })
+        .then(res => res.json())
+        .then(data => {
+            const bet: RoundBet = data
+            return bet
+        })
+}
+
+// PUT /rounds/{id}/bets/{id}
+export async function updateRoundBet(bet: RoundBet): Promise<RoundBet> {
+    return fetch('http://localhost:8080/rounds/' + bet.roundId + '/bets/' + bet.id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + (await getAuth()).idToken
+        },
+        body: JSON.stringify(bet)
+    })
+        .then(res => res.json())
+        .then(data => {
+            const bet: RoundBet = data
+            return bet
         })
 }

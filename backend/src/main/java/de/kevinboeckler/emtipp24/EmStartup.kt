@@ -24,15 +24,15 @@ class EmStartup(
     override fun run(args: ApplicationArguments?) {
         playerRepo.save(Player("fp42", "Fake Player", 42, false))
 
-        val roundA = Round("a", "Gruppe A")
-        val roundB = Round("B", "Gruppe B")
-        roundRepo.saveAll(listOf(roundA, roundB))
-
         val team1 = Team("1", "Eins")
         val team2 = Team("2", "Zwei")
         val team3 = Team("3", "Drei")
         val team4 = Team("4", "Vier")
         teamRepo.saveAll(listOf(team1, team2, team3, team4))
+
+        val roundA = Round("a", "Gruppe A", null, null)
+        val roundB = Round("B", "Gruppe B", team3, team4)
+        roundRepo.saveAll(listOf(roundA, roundB))
 
         val match1 = Match(
             "testId", OffsetDateTime.now(),

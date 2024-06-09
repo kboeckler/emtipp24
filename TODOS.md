@@ -4,5 +4,5 @@
 - [x] Admin completes match
 - [x] Add rounds endpoint
 - [x] Add player overview
+- [x] Add round bets
 - [ ] Admin completes round
-- [ ] Add round bets

@@ -103,7 +103,8 @@ class MatchController(
 
     private fun mapBet(bet: Bet) = BetModel(bet.id, bet.match.id, bet.player.id, bet.teamA, bet.teamB, bet.reward)
 
-    private fun mapRound(round: Round) = RoundModel(round.id, round.name)
+    private fun mapRound(round: Round) =
+        RoundModel(round.id, round.name, round.winnerFirst?.let(this::mapTeam), round.winnerSecond?.let(this::mapTeam))
 
     private fun mapBetModel(bet: BetModel): Bet {
         val match = matchRepo.findByIdOrNull(bet.matchId)
@@ -118,7 +119,12 @@ class MatchController(
 
     private fun mapRoundModel(round: RoundModel): Round {
         val roundOrNull = roundRepo.findByIdOrNull(round.id)
-        return Round(roundOrNull!!.id, roundOrNull.name)
+        return Round(
+            roundOrNull!!.id,
+            roundOrNull.name,
+            roundOrNull.winnerFirst,
+            roundOrNull.winnerSecond
+        )
     }
 
 }
