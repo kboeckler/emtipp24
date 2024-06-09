@@ -2,7 +2,7 @@ import MatchesList from "@/app/matches/matches-list";
 import {findAllRounds} from "@/app/actions/repo";
 import Link from "next/link";
 
-export default async function Match() {
+export default async function Matches() {
     const rounds = await findAllRounds()
 
     return (

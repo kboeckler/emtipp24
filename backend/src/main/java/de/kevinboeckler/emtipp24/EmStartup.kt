@@ -8,8 +8,6 @@ import de.kevinboeckler.emtipp24.round.Round
 import de.kevinboeckler.emtipp24.round.RoundRepository
 import de.kevinboeckler.emtipp24.team.Team
 import de.kevinboeckler.emtipp24.team.TeamRepository
-import de.kevinboeckler.emtipp24.user.ExternalUser
-import de.kevinboeckler.emtipp24.user.ExternalUserRepository
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
@@ -19,10 +17,13 @@ import java.time.OffsetDateTime
 class EmStartup(
     val matchRepo: MatchRepository,
     val teamRepo: TeamRepository,
-    val roundRepo: RoundRepository
+    val roundRepo: RoundRepository,
+    val playerRepo: PlayerRepository,
 ) :
     ApplicationRunner {
     override fun run(args: ApplicationArguments?) {
+        playerRepo.save(Player("fp42", "Fake Player", 42, false))
+
         val roundA = Round("a", "Gruppe A")
         val roundB = Round("B", "Gruppe B")
         roundRepo.saveAll(listOf(roundA, roundB))

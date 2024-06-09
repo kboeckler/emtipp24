@@ -9,6 +9,10 @@ class Player(
     @Id
     val id: String,
 
+    val name: String,
+
+    val score: Int,
+
     val admin: Boolean = false
 
 )

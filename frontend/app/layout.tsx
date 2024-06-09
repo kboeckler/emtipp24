@@ -26,6 +26,7 @@ export default function RootLayout({
 
         <nav>
             <Link href="/">Home</Link>
+            <Link href={"/players"}>Players</Link>
             <Link href={"/matches"}>Matches</Link>
             <CurrentPlayer></CurrentPlayer>
             <SignInForm></SignInForm>

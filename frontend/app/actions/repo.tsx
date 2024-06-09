@@ -58,18 +58,34 @@ export async function findCurrentPlayer(): Promise<Player | undefined> {
 }
 
 export async function insertCurrentPlayer(): Promise<Player> {
+    const auth = await getAuth()
     return fetch('http://localhost:8080/players', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + (await getAuth()).idToken
+            'Authorization': 'Bearer ' + auth.idToken
         },
-        body: JSON.stringify({email: (await getAuth())?.user?.email})
+        body: JSON.stringify({name: auth.user?.name, email: auth.user?.email})
     })
         .then(res => res.json())
         .then(data => {
             const player: Player = data
             return player
+        })
+}
+
+// GET /players
+export async function findAllPlayers(): Promise<Player[]> {
+    return cfg()
+        .then(cfg => fetch('http://localhost:8080/players', cfg))
+        .then(res => res.json())
+        .then(data => {
+            const players: Player[] = []
+            for (const item of data) {
+                const playeItem: Player = item
+                players.push(playeItem)
+            }
+            return players
         })
 }
 

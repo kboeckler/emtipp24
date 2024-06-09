@@ -3,6 +3,6 @@
 - [x] Detect admin               
 - [x] Admin completes match
 - [x] Add rounds endpoint
-- [ ] Add player overview
+- [x] Add player overview
 - [ ] Admin completes round
 - [ ] Add round bets
