@@ -1,13 +1,20 @@
 import MatchesList from "@/app/matches/matches-list";
+import {findAllRounds} from "@/app/actions/repo";
+import Link from "next/link";
 
 export default async function Match() {
+    const rounds = await findAllRounds()
+
     return (
         <main>
             <h2>Match List</h2>
-            <h3>Die erste Gruppe</h3>
-            <MatchesList roundId={"a"}></MatchesList>
-            <h3>Die zweite Gruppe</h3>
-            <MatchesList roundId={"B"}></MatchesList>
+            {rounds.map((round, index) => (
+                    <div key={round.id}>
+                        <Link href={`/round/${round.id}`}><h3>{round.name}</h3></Link>
+                        <MatchesList roundId={round.id}></MatchesList>
+                    </div>
+                )
+            )}
         </main>
-    );
+    )
 }

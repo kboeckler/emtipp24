@@ -2,7 +2,7 @@
 - [x] Register player
 - [x] Detect admin               
 - [x] Admin completes match
-- [ ] Add rounds endpoint
+- [x] Add rounds endpoint
 - [ ] Add player overview
 - [ ] Admin completes round
 - [ ] Add round bets
