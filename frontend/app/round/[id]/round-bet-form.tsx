@@ -1,11 +1,12 @@
 'use client'
 
-import {ChangeEvent, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {findCurrentPlayer, insertRoundBet, readBetsForRound, readRound, updateRoundBet} from "@/app/actions/repo";
 import {Round} from "@/app/round";
 import {RoundBet} from "@/app/round-bet";
 import {Team} from "@/app/team";
 import {Player} from "@/app/player";
+import TeamField from "@/app/round/[id]/team-field";
 
 export default function RoundBetForm({roundId}: { roundId: string }) {
     const [player, setPlayer] = useState<Player>();
@@ -38,22 +39,20 @@ export default function RoundBetForm({roundId}: { roundId: string }) {
         }
     }, [roundId])
 
-    const teamChanged = async function (e: ChangeEvent) {
-        const inputField = e.target as HTMLInputElement;
-        const teamValue = inputField.value
-        if (teamValue === "") {
+    const teamChanged = async function (newTeamId: string) {
+        if (newTeamId === "") {
             return
         }
-        console.log('A: ' + teamValue)
-        setMyBetTeam(teamValue)
+        console.log('A: ' + newTeamId)
+        setMyBetTeam(newTeamId)
         setSaving(true)
 
         let savingBet = myBet
         if (savingBet == undefined) {
-            savingBet = {roundId: round?.id!!, playerId: player!!.id, placement: 1, placingTeamId: teamValue}
+            savingBet = {roundId: round?.id!!, playerId: player!!.id, placement: 1, placingTeamId: newTeamId}
             savingBet = await insertRoundBet(savingBet)
         } else {
-            savingBet.placingTeamId = teamValue
+            savingBet.placingTeamId = newTeamId
             savingBet = await updateRoundBet(savingBet)
         }
 
@@ -63,17 +62,7 @@ export default function RoundBetForm({roundId}: { roundId: string }) {
 
     return (
         <form>
-            <select
-                value={myBetTeam}
-                onChange={teamChanged}
-                disabled={saving}
-            >
-                <option value={""}>Team auswählen</option>
-                {teams.map((team, index) => (
-                        <option key={team.id} value={`${team.id}`}>{team.name}</option>
-                    )
-                )}
-            </select>
+            <TeamField teams={teams} teamIdSelected={myBetTeam} disabled={saving} onChange={teamChanged}></TeamField>
         </form>
     )
 
