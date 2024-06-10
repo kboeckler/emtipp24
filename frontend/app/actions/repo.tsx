@@ -229,6 +229,23 @@ export async function readRound(id: string): Promise<Round | undefined> {
         })
 }
 
+// PUT /rounds/{id}
+export async function updateRound(round: Round): Promise<Round> {
+    return fetch('http://localhost:8080/rounds/' + round.id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + (await getAuth()).idToken
+        },
+        body: JSON.stringify(round)
+    })
+        .then(res => res.json())
+        .then(data => {
+            const bet: Round = data
+            return bet
+        })
+}
+
 // GET /rounds/{id}/bets
 export async function readBetsForRound(id: string): Promise<RoundBet[]> {
     return cfg()

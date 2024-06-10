@@ -1,8 +1,8 @@
-- [x] Handle token 
-- [x] Register player
-- [x] Detect admin               
-- [x] Admin completes match
 - [x] Add rounds endpoint
 - [x] Add player overview
 - [x] Add round bets
-- [ ] Admin completes round
+- [x] Admin completes round
+- [ ] Add global bet
+- [ ] Admin completes global bet
+- [ ] Calculate points
+- [ ] Calculate round teams

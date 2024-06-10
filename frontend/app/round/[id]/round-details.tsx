@@ -21,10 +21,10 @@ export default function RoundDetails({roundId}: { roundId: string }) {
     return (
         <div>
             <span>{round?.name}</span><br/>
-            Round first: {round?.winnerFirst?.name}<br/>
-            Round second: {round?.winnerSecond?.name}<br/>
+            Round first: {round?.winnerFirstId}<br/>
+            Round second: {round?.winnerSecondId}<br/>
             {bets.map((bet) => (
-                    <li key={bet.id}>{bet.placingTeamId}</li>
+                    <li key={bet.id}>{bet.playerId} wettet {bet.placingTeamId}</li>
                 )
             )}
         </div>
