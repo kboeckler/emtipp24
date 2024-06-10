@@ -7,6 +7,7 @@ import {TokenSession} from "@/auth.config";
 import {Player} from "@/app/player";
 import {Round} from "@/app/round";
 import {RoundBet} from "@/app/round-bet";
+import {Team} from "@/app/team";
 
 async function cfg(cache?: RequestCache): Promise<RequestInit> {
     const token = (await getAuth()).idToken
@@ -274,5 +275,23 @@ export async function updateRoundBet(bet: RoundBet): Promise<RoundBet> {
         .then(data => {
             const bet: RoundBet = data
             return bet
+        })
+}
+
+
+// GET /teams/?roundId=%s
+export async function findTeamsForRound(roundId: string): Promise<Team[]> {
+    return cfg()
+        .then(cfg => fetch('http://localhost:8080/teams?roundId=' + roundId, cfg))
+        .then(res => res.json())
+        .then(data => {
+            const teams: Team[] = []
+            for (const item of data) {
+                const bet: Team = item
+                teams.push(bet)
+            }
+            console.log("Teams for " + roundId)
+            console.log(teams)
+            return teams
         })
 }

@@ -1,7 +1,14 @@
 'use client'
 
 import {useEffect, useRef, useState} from "react";
-import {findCurrentPlayer, insertRoundBet, readBetsForRound, readRound, updateRoundBet} from "@/app/actions/repo";
+import {
+    findCurrentPlayer,
+    findTeamsForRound,
+    insertRoundBet,
+    readBetsForRound,
+    readRound,
+    updateRoundBet
+} from "@/app/actions/repo";
 import {Round} from "@/app/round";
 import {RoundBet} from "@/app/round-bet";
 import {Team} from "@/app/team";
@@ -35,7 +42,7 @@ export default function RoundBetForm({roundId}: { roundId: string }) {
                 }
             })
             readRound(roundId).then(round => setRound(round))
-            setTeams([{id: "1", name: "Ein Team"}, {id: "2", name: "Noch ein Team"}])
+            findTeamsForRound(roundId).then(setTeams)
         }
     }, [roundId])
 
