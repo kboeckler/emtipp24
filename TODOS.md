@@ -2,7 +2,7 @@
 - [x] Add player overview
 - [x] Add round bets
 - [x] Admin completes round
-- [ ] Add global bet
-- [ ] Admin completes global bet
+- [x] Add team bet
+- [ ] Admin completes team bet
 - [ ] Calculate points
 - [ ] Calculate round teams

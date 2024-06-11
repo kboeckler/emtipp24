@@ -2,7 +2,7 @@
 
 import {useEffect, useRef, useState} from "react";
 import {insertCurrentPlayer, MyPlayer} from "@/app/actions/repo";
-import {Player} from "@/app/player";
+import {Player} from "@/app/player/player";
 
 export default function CurrentPlayer() {
     const [currentPlayer, setCurrentPlayer] = useState<Player | undefined>()

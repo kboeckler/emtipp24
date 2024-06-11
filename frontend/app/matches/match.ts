@@ -1,4 +1,4 @@
-import {Team} from "@/app/team";
+import {Team} from "@/app/teams/team";
 import {Round} from "@/app/round";
 
 export type Match = {

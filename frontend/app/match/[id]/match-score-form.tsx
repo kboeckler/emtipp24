@@ -3,7 +3,7 @@
 import {Match} from "@/app/matches/match";
 import {ChangeEvent, useEffect, useRef, useState} from "react";
 import {MyPlayer, readMatch, updateMatch} from "@/app/actions/repo";
-import {Player} from "@/app/player";
+import {Player} from "@/app/player/player";
 
 export default function MatchScoreForm({matchId}: { matchId: string }) {
     const [match, setMatch] = useState<Match>();

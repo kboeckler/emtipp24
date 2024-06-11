@@ -4,10 +4,11 @@ import {Match} from "@/app/matches/match";
 import {Bet} from "@/app/bet";
 import {auth} from "@/auth";
 import {TokenSession} from "@/auth.config";
-import {Player} from "@/app/player";
+import {Player} from "@/app/player/player";
 import {Round} from "@/app/round";
 import {RoundBet} from "@/app/round-bet";
-import {Team} from "@/app/team";
+import {Team} from "@/app/teams/team";
+import {TeamBet} from "@/app/team-bet";
 
 async function cfg(cache?: RequestCache): Promise<RequestInit> {
     const token = (await getAuth()).idToken
@@ -122,7 +123,7 @@ export async function findMatchesForRound(roundId: String): Promise<Match[]> {
 }
 
 // GET /matches/{id}
-export async function readMatch(id: string): Promise<Match | undefined> {
+export async function readMatch(id: string): Promise<Match> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/matches/' + id, cfg))
         .then(res => res.json())
@@ -219,7 +220,7 @@ export async function findAllRounds(): Promise<Round[]> {
 }
 
 // GET /rounds/{id}
-export async function readRound(id: string): Promise<Round | undefined> {
+export async function readRound(id: string): Promise<Round> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/rounds/' + id, cfg))
         .then(res => res.json())
@@ -295,6 +296,31 @@ export async function updateRoundBet(bet: RoundBet): Promise<RoundBet> {
         })
 }
 
+// GET /teams
+export async function findAllTeams(): Promise<Team[]> {
+    return cfg()
+        .then(cfg => fetch('http://localhost:8080/teams', cfg))
+        .then(res => res.json())
+        .then(data => {
+            const teams: Team[] = []
+            for (const item of data) {
+                const team: Team = item
+                teams.push(team)
+            }
+            return teams
+        })
+}
+
+// GET /teams/%s
+export async function readTeam(teamId: string): Promise<Team> {
+    return cfg()
+        .then(cfg => fetch('http://localhost:8080/teams/' + teamId, cfg))
+        .then(res => res.json())
+        .then(data => {
+            const team: Team = data
+            return team
+        })
+}
 
 // GET /teams/?roundId=%s
 export async function findTeamsForRound(roundId: string): Promise<Team[]> {
@@ -304,11 +330,73 @@ export async function findTeamsForRound(roundId: string): Promise<Team[]> {
         .then(data => {
             const teams: Team[] = []
             for (const item of data) {
-                const bet: Team = item
-                teams.push(bet)
+                const team: Team = item
+                teams.push(team)
             }
-            console.log("Teams for " + roundId)
-            console.log(teams)
             return teams
+        })
+}
+
+// GET /teambets
+export async function findAllTeamBets(): Promise<TeamBet[]> {
+    return cfg()
+        .then(cfg => fetch('http://localhost:8080/teambets', cfg))
+        .then(res => res.json())
+        .then(data => {
+            const bets: TeamBet[] = []
+            for (const item of data) {
+                const bet: TeamBet = item
+                bets.push(bet)
+            }
+            return bets
+        })
+}
+
+// GET /teams/{id}/bets
+export async function readBetsForTeam(id: string): Promise<TeamBet[]> {
+    return cfg()
+        .then(cfg => fetch('http://localhost:8080/teams/' + id + '/bets', cfg))
+        .then(res => res.json())
+        .then(data => {
+            const bets: TeamBet[] = []
+            for (const item of data) {
+                const bet: TeamBet = item
+                bets.push(bet)
+            }
+            return bets
+        })
+}
+
+// POST /teams/{id}/bets
+export async function insertTeamBet(bet: TeamBet): Promise<TeamBet> {
+    return fetch('http://localhost:8080/teams/' + bet.teamId + '/bets', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + (await getAuth()).idToken
+        },
+        body: JSON.stringify(bet)
+    })
+        .then(res => res.json())
+        .then(data => {
+            const bet: TeamBet = data
+            return bet
+        })
+}
+
+// PUT /teams/{id}/bets/{id}
+export async function updateTeamBet(bet: TeamBet): Promise<TeamBet> {
+    return fetch('http://localhost:8080/teams/' + bet.teamId + '/bets/' + bet.id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + (await getAuth()).idToken
+        },
+        body: JSON.stringify(bet)
+    })
+        .then(res => res.json())
+        .then(data => {
+            const bet: TeamBet = data
+            return bet
         })
 }

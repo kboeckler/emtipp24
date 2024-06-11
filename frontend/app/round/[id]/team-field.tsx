@@ -1,6 +1,6 @@
 'use client'
 
-import {Team} from "@/app/team";
+import {Team} from "@/app/teams/team";
 import {ChangeEvent} from "react";
 
 export default function TeamField({teams, teamIdSelected, disabled, onChange}: {

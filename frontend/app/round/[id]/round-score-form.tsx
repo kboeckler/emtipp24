@@ -3,8 +3,8 @@
 import {useEffect, useRef, useState} from "react";
 import {findCurrentPlayer, findTeamsForRound, readRound, updateRound} from "@/app/actions/repo";
 import {Round} from "@/app/round";
-import {Team} from "@/app/team";
-import {Player} from "@/app/player";
+import {Team} from "@/app/teams/team";
+import {Player} from "@/app/player/player";
 import TeamField from "@/app/round/[id]/team-field";
 
 export default function RoundScoreForm({roundId}: { roundId: string }) {

@@ -11,8 +11,8 @@ import {
 } from "@/app/actions/repo";
 import {Round} from "@/app/round";
 import {RoundBet} from "@/app/round-bet";
-import {Team} from "@/app/team";
-import {Player} from "@/app/player";
+import {Team} from "@/app/teams/team";
+import {Player} from "@/app/player/player";
 import TeamField from "@/app/round/[id]/team-field";
 
 export default function RoundBetForm({roundId}: { roundId: string }) {

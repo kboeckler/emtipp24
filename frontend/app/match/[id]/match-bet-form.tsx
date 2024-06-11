@@ -4,7 +4,7 @@ import {Match} from "@/app/matches/match";
 import {Bet} from "@/app/bet";
 import {ChangeEvent, useEffect, useRef, useState} from "react";
 import {insertBet, MyPlayer, readBetsForMatch, readMatch, updateBet} from "@/app/actions/repo";
-import {Player} from "@/app/player";
+import {Player} from "@/app/player/player";
 
 export default function MatchBetForm({matchId}: { matchId: string }) {
     const [match, setMatch] = useState<Match>();
