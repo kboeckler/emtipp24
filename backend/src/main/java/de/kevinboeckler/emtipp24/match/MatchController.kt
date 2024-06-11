@@ -1,9 +1,9 @@
 package de.kevinboeckler.emtipp24.match
 
 import de.kevinboeckler.emtipp24.EmAuthorityFilter.Companion.ADMIN_ROLE
-import de.kevinboeckler.emtipp24.bet.Bet
-import de.kevinboeckler.emtipp24.bet.BetModel
-import de.kevinboeckler.emtipp24.bet.BetRepository
+import de.kevinboeckler.emtipp24.match.bet.MatchBet
+import de.kevinboeckler.emtipp24.match.bet.MatchBetModel
+import de.kevinboeckler.emtipp24.match.bet.MatchBetRepository
 import de.kevinboeckler.emtipp24.player.PlayerRepository
 import de.kevinboeckler.emtipp24.round.Round
 import de.kevinboeckler.emtipp24.round.RoundModel
@@ -21,7 +21,7 @@ import java.util.*
 @RestController
 class MatchController(
     val matchRepo: MatchRepository,
-    val betRepo: BetRepository,
+    val betRepo: MatchBetRepository,
     val playerRepo: PlayerRepository,
     val roundRepo: RoundRepository,
     val teamRepo: TeamRepository
@@ -51,13 +51,15 @@ class MatchController(
     }
 
     @GetMapping("/matches/{matchId}/bets")
-    fun betsForMatch(@PathVariable matchId: String): List<BetModel> {
+    fun betsForMatch(@PathVariable matchId: String): List<MatchBetModel> {
         return betRepo.findAllByMatch_Id(matchId).map(this::mapBet).toList()
     }
 
     @PostMapping("/matches/{matchId}/bets")
-    fun createBetForMatch(@PathVariable matchId: String, @RequestBody bet: BetModel): ResponseEntity<BetModel> {
-        println("Created: $bet")
+    fun createBetForMatch(
+        @PathVariable matchId: String,
+        @RequestBody bet: MatchBetModel
+    ): ResponseEntity<MatchBetModel> {
         val resultBet = bet.copy(id = UUID.randomUUID().toString())
         betRepo.save(mapBetModel(resultBet))
         return ResponseEntity(resultBet, HttpStatus.CREATED)
@@ -67,9 +69,8 @@ class MatchController(
     fun updateBetForMatch(
         @PathVariable matchId: String,
         @PathVariable betId: String,
-        @RequestBody bet: BetModel
-    ): ResponseEntity<BetModel> {
-        println("Updated: $bet")
+        @RequestBody bet: MatchBetModel
+    ): ResponseEntity<MatchBetModel> {
         betRepo.save(mapBetModel(bet))
         return ResponseEntity(bet, HttpStatus.OK)
     }
@@ -101,15 +102,22 @@ class MatchController(
 
     private fun mapTeam(team: Team) = TeamModel(team.id, team.name)
 
-    private fun mapBet(bet: Bet) = BetModel(bet.id, bet.match.id, bet.player.id, bet.teamA, bet.teamB, bet.reward)
+    private fun mapBet(matchBet: MatchBet) = MatchBetModel(
+        matchBet.id,
+        matchBet.match.id,
+        matchBet.player.id,
+        matchBet.teamA,
+        matchBet.teamB,
+        matchBet.reward
+    )
 
     private fun mapRound(round: Round) =
         RoundModel(round.id, round.name, round.winnerFirst?.id, round.winnerSecond?.id)
 
-    private fun mapBetModel(bet: BetModel): Bet {
+    private fun mapBetModel(bet: MatchBetModel): MatchBet {
         val match = matchRepo.findByIdOrNull(bet.matchId)
         val player = playerRepo.findByIdOrNull(bet.playerId)
-        return Bet(bet.id!!, match!!, player!!, bet.teamA, bet.teamB, bet.reward)
+        return MatchBet(bet.id!!, match!!, player!!, bet.teamA, bet.teamB, bet.reward)
     }
 
     private fun mapTeamModel(team: TeamModel): Team {

@@ -1,4 +1,4 @@
-package de.kevinboeckler.emtipp24.bet
+package de.kevinboeckler.emtipp24.match.bet
 
 import de.kevinboeckler.emtipp24.match.Match
 import de.kevinboeckler.emtipp24.player.Player
@@ -8,7 +8,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 
 @Entity
-class Bet(
+class MatchBet(
 
     @Id
     val id: String,

@@ -1,6 +1,6 @@
-package de.kevinboeckler.emtipp24.bet
+package de.kevinboeckler.emtipp24.match.bet
 
-data class BetModel(
+data class MatchBetModel(
     val id: String?,
     val matchId: String,
     val playerId: String,

@@ -3,7 +3,8 @@
 import {Match} from "@/app/matches/match";
 import {Bet} from "@/app/bet";
 import {ChangeEvent, useEffect, useRef, useState} from "react";
-import {insertBet, readBetsForMatch, readMatch, updateBet} from "@/app/actions/repo";
+import {insertBet, MyPlayer, readBetsForMatch, readMatch, updateBet} from "@/app/actions/repo";
+import {Player} from "@/app/player";
 
 export default function MatchBetForm({matchId}: { matchId: string }) {
     const [match, setMatch] = useState<Match>();
@@ -11,11 +12,13 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
     const [myBetA, setMyBetA] = useState(0)
     const [myBetB, setMyBetB] = useState(0)
     const [saving, setSaving] = useState(false)
+    const [currentPlayer, setCurrentPlayer] = useState<Player | undefined>()
 
     const initialized = useRef(false)
     useEffect(() => {
         if (!initialized.current) {
             initialized.current = true
+            MyPlayer().then(setCurrentPlayer)
             readMatch(matchId).then(matches => setMatch(matches))
             readBetsForMatch(matchId).then(bets => {
                 for (const bet of bets) {
@@ -39,7 +42,7 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
 
         let savingBet = myBet
         if (savingBet == undefined) {
-            savingBet = {matchId: match?.id!!, playerId: "meinsa", teamA: teamAValue, teamB: 0}
+            savingBet = {matchId: match?.id!!, playerId: currentPlayer?.id!!, teamA: teamAValue, teamB: 0}
             savingBet = await insertBet(savingBet)
         } else {
             savingBet.teamA = teamAValue
@@ -70,11 +73,21 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
         setSaving(false)
     }
 
-    return (
-        <form>
-            <input type={"number"} name={"teamA"} onChange={teamAChanged} value={myBetA} disabled={saving}></input>
-            <input type={"number"} name={"teamB"} onChange={teamBChanged} value={myBetB} disabled={saving}></input>
-        </form>
-    )
+    const renderFormIfPossible = function () {
+        if (currentPlayer?.id != undefined)
+            return (
+                <form>
+                    <input type={"number"} name={"teamA"} onChange={teamAChanged} value={myBetA}
+                           disabled={saving}></input>
+                    <input type={"number"} name={"teamB"} onChange={teamBChanged} value={myBetB}
+                           disabled={saving}></input>
+                </form>
+            )
+        return (
+            <div></div>
+        )
+    }
+
+    return renderFormIfPossible()
 
 }
