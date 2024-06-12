@@ -322,6 +322,23 @@ export async function readTeam(teamId: string): Promise<Team> {
         })
 }
 
+// GET /teams/%s
+export async function updateTeam(team: Team): Promise<Team> {
+    return fetch('http://localhost:8080/teams/' + team.id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + (await getAuth()).idToken
+        },
+        body: JSON.stringify(team)
+    })
+        .then(res => res.json())
+        .then(data => {
+            const bet: Team = data
+            return bet
+        })
+}
+
 // GET /teams/?roundId=%s
 export async function findTeamsForRound(roundId: string): Promise<Team[]> {
     return cfg()

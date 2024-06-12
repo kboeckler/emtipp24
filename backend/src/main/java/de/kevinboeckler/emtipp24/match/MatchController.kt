@@ -11,6 +11,8 @@ import de.kevinboeckler.emtipp24.round.RoundRepository
 import de.kevinboeckler.emtipp24.team.Team
 import de.kevinboeckler.emtipp24.team.TeamModel
 import de.kevinboeckler.emtipp24.team.TeamRepository
+import de.kevinboeckler.emtipp24.team.bet.TeamRole
+import de.kevinboeckler.emtipp24.team.role.RoleRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -24,7 +26,8 @@ class MatchController(
     val betRepo: MatchBetRepository,
     val playerRepo: PlayerRepository,
     val roundRepo: RoundRepository,
-    val teamRepo: TeamRepository
+    val teamRepo: TeamRepository,
+    val roleRepository: RoleRepository
 ) {
 
     @GetMapping("/matches")
@@ -100,7 +103,7 @@ class MatchController(
         match.scoreB
     )
 
-    private fun mapTeam(team: Team) = TeamModel(team.id, team.name)
+    private fun mapTeam(team: Team) = TeamModel(team.id, team.name, team.reachedRoles.map { it.id })
 
     private fun mapBet(matchBet: MatchBet) = MatchBetModel(
         matchBet.id,
@@ -122,7 +125,8 @@ class MatchController(
 
     private fun mapTeamModel(team: TeamModel): Team {
         val teamOrNull = teamRepo.findByIdOrNull(team.id)
-        return Team(teamOrNull!!.id, teamOrNull.name)
+        val roles = team.reachedRoleIds.map { roleRepository.findByReachedRoleId(TeamRole.valueOf(it))!! }
+        return Team(teamOrNull!!.id, teamOrNull.name, roles)
     }
 
     private fun mapRoundModel(round: RoundModel): Round {

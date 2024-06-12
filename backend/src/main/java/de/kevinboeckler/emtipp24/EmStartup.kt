@@ -8,6 +8,9 @@ import de.kevinboeckler.emtipp24.round.Round
 import de.kevinboeckler.emtipp24.round.RoundRepository
 import de.kevinboeckler.emtipp24.team.Team
 import de.kevinboeckler.emtipp24.team.TeamRepository
+import de.kevinboeckler.emtipp24.team.bet.TeamRole
+import de.kevinboeckler.emtipp24.team.role.Role
+import de.kevinboeckler.emtipp24.team.role.RoleRepository
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
@@ -19,16 +22,20 @@ class EmStartup(
     val teamRepo: TeamRepository,
     val roundRepo: RoundRepository,
     val playerRepo: PlayerRepository,
+    val roleRepository: RoleRepository
 ) :
     ApplicationRunner {
     override fun run(args: ApplicationArguments?) {
         playerRepo.save(Player("fp42", "Fake Player", 42, false))
 
-        val team1 = Team("1", "Eins")
-        val team2 = Team("2", "Zwei")
-        val team3 = Team("3", "Drei")
-        val team4 = Team("4", "Vier")
+        val reachedRoles = mutableListOf<Role>()
+        val team1 = Team("1", "Eins", listOf())
+        val team2 = Team("2", "Zwei", listOf())
+        val team3 = Team("3", "Drei", listOf())
+        val team4 = Team("4", "Vier", listOf())
         teamRepo.saveAll(listOf(team1, team2, team3, team4))
+
+        teamRepo.save(team1)
 
         val roundA = Round("a", "Gruppe A", null, null)
         val roundB = Round("B", "Gruppe B", team3, team4)

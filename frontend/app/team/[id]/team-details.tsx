@@ -23,6 +23,7 @@ export default function TeamDetails({teamId}: { teamId: string }) {
     return (
         <div>
             <span>Name: {team?.name}</span><br/>
+            <span>Rollen: {team?.reachedRoleIds}</span><br/>
             {bets.map((bet) => (
                     <li key={bet.id}>{bet.playerId} wettet Rolle {bet.reachedRoleId} von {bet.teamId}</li>
                 )

@@ -1,8 +1,10 @@
-- [x] Add rounds endpoint
 - [x] Add player overview
 - [x] Add round bets
 - [x] Admin completes round
 - [x] Add team bet
-- [ ] Admin completes team bet
+- [x] Admin completes team bet
+- [ ] Style the page
+- [ ] Validate & filter
+- [ ] Deploy to production
 - [ ] Calculate points
 - [ ] Calculate round teams
