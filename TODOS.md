@@ -3,6 +3,7 @@
 - [x] Admin completes round
 - [x] Add team bet
 - [x] Admin completes team bet
+- [ ] Init data
 - [ ] Style the page
 - [ ] Validate & filter
 - [ ] Deploy to production
