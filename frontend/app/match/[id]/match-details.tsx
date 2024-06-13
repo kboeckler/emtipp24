@@ -21,7 +21,7 @@ export default function MatchDetails({matchId}: { matchId: string }) {
     return (
         <div>
             <div>Id: {match?.id}</div>
-            <div>Start: {match?.start?.toDateString()}</div>
+            <div>Start: {match?.start?.toDateString()} {match?.start?.toLocaleTimeString()}</div>
             <div>Gruppe: {match?.round.name}</div>
             <div>{match?.teamA?.name} gegen {match?.teamB?.name}</div>
             <div>{match?.scoreA} : {match?.scoreB}</div>

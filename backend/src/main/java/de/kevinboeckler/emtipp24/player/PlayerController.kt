@@ -33,7 +33,8 @@ class PlayerController(
         if (userRepo.existsByEmail(playerCreate.email)) {
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
-        val newPlayer = Player(UUID.randomUUID().toString(), playerCreate.name, 0, true)
+        val isFirstPlayer = playerRepo.count() == 0L
+        val newPlayer = Player(UUID.randomUUID().toString(), playerCreate.name, 0, isFirstPlayer)
         playerRepo.save(newPlayer)
         val newUser = ExternalUser(UUID.randomUUID().toString(), playerCreate.email, newPlayer)
         userRepo.save(newUser)

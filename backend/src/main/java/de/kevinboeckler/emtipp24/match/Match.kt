@@ -13,7 +13,7 @@ class Match(
 
     val start: OffsetDateTime?,
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "round")
     val round: Round,
 
