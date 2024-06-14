@@ -3,7 +3,7 @@ import {Round} from "@/app/round";
 
 export type Match = {
     id: string
-    start?: Date
+    start: Date
     round: Round
     teamA?: Team
     teamB?: Team

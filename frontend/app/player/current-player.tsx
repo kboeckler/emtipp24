@@ -1,7 +1,7 @@
 "use client"
 
 import {useEffect, useRef, useState} from "react";
-import {insertCurrentPlayer, MyPlayer} from "@/app/actions/repo";
+import {insertCurrentPlayer, isAuthenticated, MyPlayer} from "@/app/actions/repo";
 import {Player} from "@/app/player/player";
 
 export default function CurrentPlayer() {
@@ -11,11 +11,15 @@ export default function CurrentPlayer() {
     useEffect(() => {
         if (!initialized.current) {
             initialized.current = true
-            MyPlayer().then(playerOrUndefined => {
-                if (playerOrUndefined === undefined) {
-                    insertCurrentPlayer().then(insertedPlayer => setCurrentPlayer(insertedPlayer))
-                } else {
-                    setCurrentPlayer(playerOrUndefined)
+            isAuthenticated().then(authenticated => {
+                if (authenticated) {
+                    MyPlayer().then(playerOrUndefined => {
+                        if (playerOrUndefined === undefined) {
+                            insertCurrentPlayer().then(insertedPlayer => setCurrentPlayer(insertedPlayer))
+                        } else {
+                            setCurrentPlayer(playerOrUndefined)
+                        }
+                    })
                 }
             })
         }
@@ -23,7 +27,7 @@ export default function CurrentPlayer() {
 
     function renderAdminIfSo() {
         if (currentPlayer?.admin) {
-            return (<span><br/>recognized as Admin</span>)
+            return (<span>(Admin)</span>)
         }
     }
 
@@ -31,15 +35,14 @@ export default function CurrentPlayer() {
         if (currentPlayer !== undefined) {
             return (
                 <div>
-                    Hallo Current Player<br/>
-                    It is: {currentPlayer?.id}
+                    Hallo {currentPlayer.name}
                     {renderAdminIfSo()}
                     <br/>
                 </div>
             )
         } else {
             return (<div>
-                no known Player
+                Nicht eingeloggt
             </div>)
         }
     }

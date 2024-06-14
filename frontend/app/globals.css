@@ -1,30 +1,86 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
-    color: black;
-    background-color: aliceblue;
+    --main-bg-color: white;
+    --secondary-bg-color: #b0b0b0;
+    --main-fg-color: black;
+    --secondary-fg-color: #0024cf;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        color: skyblue;
-        background-color: #343434;
+        --main-bg-color: black;
+        --secondary-bg-color: #5e5e5e;
+        --main-fg-color: white;
+        --secondary-fg-color: #70fbd0;
     }
 }
 
 body {
+    background-color: var(--main-bg-color);
+    color: var(--main-fg-color)
 }
 
-h1 {
-    font-size: 2em;
+/* Styles of components */
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: revert;
+    font-weight: revert;
 }
 
-@layer utilities {
-    .text-balance {
-        text-wrap: balance;
-    }
+a, a:visited, a:link {
+    text-decoration: none;
+    color: var(--main-fg-color);
+}
+
+a:active, a:hover, a:focus {
+    color: var(--secondary-fg-color)
+}
+
+select, input {
+    color: var(--main-fg-color);
+    background-color: var(--secondary-bg-color);
+    font-size: medium;
+}
+
+select:disabled, input:disabled {
+    background-color: var(--main-bg-color);
+}
+
+button {
+    cursor: pointer;
+}
+
+/* Custom component classes */
+.tile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.tile-match {
+    display: inline-flex;
+}
+
+.input-bet {
+    border-color: var(--main-fg-color);
+    border-width: 0.2em;
+    width: 2em;
+}
+
+.is-busy {
+    border-color: red !important;
+}
+
+.has-value {
+    border-color: green;
+}
+
+/* Layouts */
+
+nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
 }
 
 /* Chrome, Safari, Edge, Opera */

@@ -4,8 +4,8 @@
 - [x] Add team bet
 - [x] Admin completes team bet
 - [x] Init data
-- [ ] Style the page
-- [ ] Validate & filter
+- [x] Style the page
+- [x] Validate & filter
 - [ ] Deploy to production
 - [ ] Calculate points
 - [ ] Calculate round teams

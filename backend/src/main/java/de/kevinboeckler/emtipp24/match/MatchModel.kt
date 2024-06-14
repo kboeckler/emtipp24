@@ -6,7 +6,7 @@ import java.time.OffsetDateTime
 
 data class MatchModel(
     val id: String,
-    val start: OffsetDateTime?,
+    val start: OffsetDateTime,
     val round: RoundModel,
     val teamA: TeamModel?,
     val teamB: TeamModel?,

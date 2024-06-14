@@ -2,7 +2,10 @@ package de.kevinboeckler.emtipp24.match;
 
 import de.kevinboeckler.emtipp24.round.Round
 import de.kevinboeckler.emtipp24.team.Team
-import jakarta.persistence.*
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 import java.time.OffsetDateTime
 
 @Entity
@@ -11,7 +14,7 @@ class Match(
     @Id
     val id: String,
 
-    val start: OffsetDateTime?,
+    val start: OffsetDateTime,
 
     @ManyToOne
     @JoinColumn(name = "round")

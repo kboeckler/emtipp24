@@ -8,7 +8,7 @@ export default async function Players() {
             <h2>Player Overview</h2>
             {players.map((player, index) => (
                     <div key={player.id}>
-                        <h3>{player.name} | {player.score}</h3>
+                        <span>{player.name} | {player.score}</span>
                     </div>
                 )
             )}

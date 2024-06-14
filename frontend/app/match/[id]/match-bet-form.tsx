@@ -9,8 +9,8 @@ import {Player} from "@/app/player/player";
 export default function MatchBetForm({matchId}: { matchId: string }) {
     const [match, setMatch] = useState<Match>();
     const [myBet, setMyBet] = useState<Bet>();
-    const [myBetA, setMyBetA] = useState(0)
-    const [myBetB, setMyBetB] = useState(0)
+    const [myBetA, setMyBetA] = useState<Number | undefined>()
+    const [myBetB, setMyBetB] = useState<Number | undefined>()
     const [saving, setSaving] = useState(false)
     const [currentPlayer, setCurrentPlayer] = useState<Player | undefined>()
 
@@ -18,16 +18,20 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
     useEffect(() => {
         if (!initialized.current) {
             initialized.current = true
-            MyPlayer().then(setCurrentPlayer)
-            readMatch(matchId).then(matches => setMatch(matches))
-            readBetsForMatch(matchId).then(bets => {
-                for (const bet of bets) {
-                    if (bet.playerId == "meinsa") {
-                        setMyBet(bet)
-                        setMyBetA(bet.teamA)
-                        setMyBetB(bet.teamB)
-                        break
-                    }
+            MyPlayer().then(myPlayer => {
+                setCurrentPlayer(myPlayer)
+                if (myPlayer !== undefined) {
+                    readMatch(matchId).then(matches => setMatch(matches))
+                    readBetsForMatch(matchId).then(bets => {
+                        for (const bet of bets) {
+                            if (bet.playerId == myPlayer.id) {
+                                setMyBet(bet)
+                                setMyBetA(bet.teamA)
+                                setMyBetB(bet.teamB)
+                                break
+                            }
+                        }
+                    })
                 }
             })
         }
@@ -36,7 +40,6 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
     const teamAChanged = async function (e: ChangeEvent) {
         const inputField = e.target as HTMLInputElement;
         const teamAValue = Number(inputField.value)
-        console.log('A: ' + teamAValue)
         setMyBetA(teamAValue)
         setSaving(true)
 
@@ -56,13 +59,12 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
     const teamBChanged = async function (e: ChangeEvent) {
         const inputField = e.target as HTMLInputElement;
         const teamBValue = Number(inputField.value)
-        console.log('B: ' + teamBValue)
         setMyBetB(teamBValue)
         setSaving(true)
 
         let savingBet = myBet
         if (savingBet == undefined) {
-            savingBet = {matchId: match?.id!!, playerId: "meinsa", teamA: 0, teamB: teamBValue}
+            savingBet = {matchId: match?.id!!, playerId: currentPlayer?.id!!, teamA: 0, teamB: teamBValue}
             savingBet = await insertBet(savingBet)
         } else {
             savingBet.teamB = teamBValue
@@ -73,16 +75,31 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
         setSaving(false)
     }
 
+    function matchHasBegun() {
+        return match?.start !== undefined && match.start < new Date();
+    }
+
     const renderFormIfPossible = function () {
-        if (currentPlayer?.id != undefined)
+        if (currentPlayer?.id != undefined) {
+            const valA = myBetA !== undefined ? "" + myBetA : ""
+            const valB = myBetB !== undefined ? "" + myBetB : ""
+            console.log(saving)
             return (
                 <form>
-                    <input type={"number"} name={"teamA"} onChange={teamAChanged} value={myBetA}
-                           disabled={saving}></input>
-                    <input type={"number"} name={"teamB"} onChange={teamBChanged} value={myBetB}
-                           disabled={saving}></input>
+                    <input
+                        className={"input-bet " + (myBetA !== undefined ? "has-value " : "") + (saving ? "is-busy" : "")}
+                        type={"number"}
+                        name={"teamA"} onChange={teamAChanged} value={valA}
+                        disabled={saving || matchHasBegun()}></input>
+                    <input
+                        className={"input-bet " + (myBetB !== undefined ? "has-value " : "") + (saving ? "is-busy" : "")}
+                        type={"number"}
+                        name={"teamB"} onChange={teamBChanged}
+                        value={valB}
+                        disabled={saving || matchHasBegun()}></input>
                 </form>
             )
+        }
         return (
             <div></div>
         )

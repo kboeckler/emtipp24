@@ -6,8 +6,10 @@ interface MatchItemProps {
 
 export default async function MatchItem({id}: MatchItemProps) {
     const match = await readMatch(id)
-
     return (
-        <span>Start: {match?.start?.toDateString()} | Id: {match?.id}</span>
+        <div>
+            <div>{match.round.name} | {match?.start?.toDateString()} {match?.start?.toLocaleTimeString()}</div>
+            <span>{match.teamA?.name} - {match.teamB?.name}</span>
+        </div>
     )
 }

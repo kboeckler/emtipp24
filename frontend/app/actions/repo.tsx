@@ -40,6 +40,16 @@ export async function isAuthenticated(): Promise<boolean> {
     })
 }
 
+function parseResponse(res: Response) {
+    if (!res.ok) {
+        console.log("Request failed: " + res.url + " : " + res.status + " " + res.statusText)
+        console.log("Request headers were:")
+        res.headers.forEach(header => console.log(header))
+        return undefined
+    }
+    return res.json();
+}
+
 async function getAuth(): Promise<TokenSession> {
     const tokenSession = await auth() as TokenSession;
     if (tokenSession != null) {
@@ -49,8 +59,10 @@ async function getAuth(): Promise<TokenSession> {
 }
 
 export async function findCurrentPlayer(): Promise<Player | undefined> {
-    return cfg().then(cfg => fetch('http://localhost:8080/currentplayer', cfg))
-        .then(res => res.json())
+    return cfg().then(cfg => {
+        return fetch('http://localhost:8080/currentplayer', cfg)
+    })
+        .then(parseResponse)
         .catch(_ => undefined)
         .then(data => {
             if (data) {
@@ -70,7 +82,7 @@ export async function insertCurrentPlayer(): Promise<Player> {
         },
         body: JSON.stringify({name: auth.user?.name, email: auth.user?.email})
     })
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const player: Player = data
             return player
@@ -81,7 +93,7 @@ export async function insertCurrentPlayer(): Promise<Player> {
 export async function findAllPlayers(): Promise<Player[]> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/players', cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const players: Player[] = []
             for (const item of data) {
@@ -96,11 +108,12 @@ export async function findAllPlayers(): Promise<Player[]> {
 export async function findAllMatches(): Promise<Match[]> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/matches', cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const matches: Match[] = []
             for (const item of data) {
                 const matchItem: Match = item
+                matchItem.start = new Date(matchItem.start)
                 matches.push(matchItem)
             }
             return matches
@@ -111,7 +124,7 @@ export async function findAllMatches(): Promise<Match[]> {
 export async function findMatchesForRound(roundId: String): Promise<Match[]> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/matches?roundId=' + roundId, cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const matches: Match[] = []
             for (const item of data) {
@@ -126,14 +139,10 @@ export async function findMatchesForRound(roundId: String): Promise<Match[]> {
 export async function readMatch(id: string): Promise<Match> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/matches/' + id, cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const match: Match = data
-            if (match.start != undefined) {
-                match.start = new Date(match.start)
-            } else {
-                match.start = undefined
-            }
+            match.start = new Date(match.start)
             return match
         })
 }
@@ -148,7 +157,7 @@ export async function updateMatch(match: Match): Promise<Match> {
         },
         body: JSON.stringify(match)
     })
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bet: Match = data
             return bet
@@ -159,7 +168,7 @@ export async function updateMatch(match: Match): Promise<Match> {
 export async function readBetsForMatch(id: string): Promise<Bet[]> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/matches/' + id + '/bets', cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bets: Bet[] = []
             for (const item of data) {
@@ -180,7 +189,7 @@ export async function insertBet(bet: Bet): Promise<Bet> {
         },
         body: JSON.stringify(bet)
     })
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bet: Bet = data
             return bet
@@ -197,7 +206,7 @@ export async function updateBet(bet: Bet): Promise<Bet> {
         },
         body: JSON.stringify(bet)
     })
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bet: Bet = data
             return bet
@@ -208,7 +217,7 @@ export async function updateBet(bet: Bet): Promise<Bet> {
 export async function findAllRounds(): Promise<Round[]> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/rounds', cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const rounds: Round[] = []
             for (const item of data) {
@@ -223,7 +232,7 @@ export async function findAllRounds(): Promise<Round[]> {
 export async function readRound(id: string): Promise<Round> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/rounds/' + id, cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const round: Round = data
             return round
@@ -240,7 +249,7 @@ export async function updateRound(round: Round): Promise<Round> {
         },
         body: JSON.stringify(round)
     })
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bet: Round = data
             return bet
@@ -251,7 +260,7 @@ export async function updateRound(round: Round): Promise<Round> {
 export async function readBetsForRound(id: string): Promise<RoundBet[]> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/rounds/' + id + '/bets', cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bets: RoundBet[] = []
             for (const item of data) {
@@ -272,7 +281,7 @@ export async function insertRoundBet(bet: RoundBet): Promise<RoundBet> {
         },
         body: JSON.stringify(bet)
     })
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bet: RoundBet = data
             return bet
@@ -289,7 +298,7 @@ export async function updateRoundBet(bet: RoundBet): Promise<RoundBet> {
         },
         body: JSON.stringify(bet)
     })
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bet: RoundBet = data
             return bet
@@ -300,7 +309,7 @@ export async function updateRoundBet(bet: RoundBet): Promise<RoundBet> {
 export async function findAllTeams(): Promise<Team[]> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/teams', cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const teams: Team[] = []
             for (const item of data) {
@@ -315,7 +324,7 @@ export async function findAllTeams(): Promise<Team[]> {
 export async function readTeam(teamId: string): Promise<Team> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/teams/' + teamId, cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const team: Team = data
             return team
@@ -332,7 +341,7 @@ export async function updateTeam(team: Team): Promise<Team> {
         },
         body: JSON.stringify(team)
     })
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bet: Team = data
             return bet
@@ -343,7 +352,7 @@ export async function updateTeam(team: Team): Promise<Team> {
 export async function findTeamsForRound(roundId: string): Promise<Team[]> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/teams?roundId=' + roundId, cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const teams: Team[] = []
             for (const item of data) {
@@ -358,7 +367,7 @@ export async function findTeamsForRound(roundId: string): Promise<Team[]> {
 export async function findAllTeamBets(): Promise<TeamBet[]> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/teambets', cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bets: TeamBet[] = []
             for (const item of data) {
@@ -373,7 +382,7 @@ export async function findAllTeamBets(): Promise<TeamBet[]> {
 export async function readBetsForTeam(id: string): Promise<TeamBet[]> {
     return cfg()
         .then(cfg => fetch('http://localhost:8080/teams/' + id + '/bets', cfg))
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bets: TeamBet[] = []
             for (const item of data) {
@@ -394,7 +403,7 @@ export async function insertTeamBet(bet: TeamBet): Promise<TeamBet> {
         },
         body: JSON.stringify(bet)
     })
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bet: TeamBet = data
             return bet
@@ -411,7 +420,7 @@ export async function updateTeamBet(bet: TeamBet): Promise<TeamBet> {
         },
         body: JSON.stringify(bet)
     })
-        .then(res => res.json())
+        .then(parseResponse)
         .then(data => {
             const bet: TeamBet = data
             return bet
