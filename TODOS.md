@@ -1,11 +1,7 @@
-- [x] Add player overview
-- [x] Add round bets
-- [x] Admin completes round
-- [x] Add team bet
-- [x] Admin completes team bet
-- [x] Init data
-- [x] Style the page
 - [x] Validate & filter
-- [ ] Deploy to production
+- [ ] Solve untrusted host
+- [ ] Configure OAuth2
+- [ ] Remove localhost
+- [ ] Configure database
 - [ ] Calculate points
 - [ ] Calculate round teams
