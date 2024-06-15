@@ -18,7 +18,7 @@ export default function LogoutForm() {
             return (<form
                 action={logout}
             >
-                <button type="submit">Logout</button>
+                <button type="submit">Abmelden</button>
             </form>)
         } else
             return ("")

@@ -60,6 +60,13 @@ button {
     display: inline-flex;
 }
 
+.landing-list-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+
 .input-bet {
     border-color: var(--main-fg-color);
     border-width: 0.2em;

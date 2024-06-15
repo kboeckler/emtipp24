@@ -18,7 +18,7 @@ export default function LoginForm() {
             return (<form
                 action={login}
             >
-                <button type="submit">Login</button>
+                <button type="submit">Anmelden</button>
             </form>)
         } else
             return ("")

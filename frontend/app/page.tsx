@@ -1,11 +1,10 @@
-import MatchesList from "@/app/matches/matches-list";
+import LandingContainer from "@/app/landing-container";
 
 export default function Home() {
 
     return (
         <main>
-            <h2>Die nächsten Matches</h2>
-            <MatchesList></MatchesList>
+            <LandingContainer></LandingContainer>
         </main>
     );
 }
