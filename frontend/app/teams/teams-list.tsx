@@ -5,12 +5,12 @@ export default async function TeamsList() {
     let teams = await findAllTeams()
 
     return (
-        <ul>
+        <div className={"tile-list"}>
             {teams.map((team, index) => (
-                    <li key={team.id}><Link href={`/team/${team.id}`}>{team.name}</Link>
-                    </li>
+                    <div className={"tile-match"} key={team.id}><Link href={`/team/${team.id}`}>{team.name}</Link>
+                    </div>
                 )
             )}
-        </ul>
+        </div>
     )
 }

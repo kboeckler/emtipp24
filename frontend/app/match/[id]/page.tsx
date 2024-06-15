@@ -7,7 +7,7 @@ export default async function MatchDetailsPage({params}: { params: { id: string 
 
     return (
         <main>
-            <h2>Match Detail</h2>
+            <h2>Spiel Detail</h2>
             <MatchDetails matchId={id}></MatchDetails>
             <MatchBetForm matchId={id}></MatchBetForm>
             <MatchScoreForm matchId={id}></MatchScoreForm>

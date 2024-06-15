@@ -72,14 +72,22 @@ export default function TeamScoreForm() {
         if (player?.admin) {
             return (
                 <form>
-                    <span>WINNER Result:</span>
-                    <TeamField teams={teams} teamIdSelected={teamPerRole.get('TOURNAMENT_WINNER')?.id || ""}
-                               disabled={saving}
-                               onChange={teamId => teamChanged('TOURNAMENT_WINNER', teamId)}></TeamField>
-                    <span>SECOND Result:</span>
-                    <TeamField teams={teams} teamIdSelected={teamPerRole.get('TOURNAMENT_SECOND')?.id || ""}
-                               disabled={saving}
-                               onChange={teamId => teamChanged('TOURNAMENT_SECOND', teamId)}></TeamField>
+                    <div>Mannschafts-Ergebnisse:</div>
+                    <br/>
+                    <div>
+                        <span>Europameister:</span>
+                        <TeamField teams={teams} teamIdSelected={teamPerRole.get('TOURNAMENT_WINNER')?.id || ""}
+                                   disabled={saving}
+                                   saving={saving}
+                                   onChange={teamId => teamChanged('TOURNAMENT_WINNER', teamId)}></TeamField>
+                    </div>
+                    <div>
+                        <span>Vize-Europameister:</span>
+                        <TeamField teams={teams} teamIdSelected={teamPerRole.get('TOURNAMENT_SECOND')?.id || ""}
+                                   disabled={saving}
+                                   saving={saving}
+                                   onChange={teamId => teamChanged('TOURNAMENT_SECOND', teamId)}></TeamField>
+                    </div>
                 </form>
             )
         } else return (

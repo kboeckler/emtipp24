@@ -18,11 +18,21 @@ export default function RoundDetails({roundId}: { roundId: string }) {
         }
     }, [roundId])
 
+    const renderFinishersIfPresent = function () {
+        if (round?.winnerFirstId || round?.winnerSecondId) {
+            return (
+                <>
+                    Round first: {round?.winnerFirstId}<br/>
+                    Round second: {round?.winnerSecondId}<br/>
+                </>
+            )
+        }
+    }
+
     return (
         <div>
             <span>{round?.name}</span><br/>
-            Round first: {round?.winnerFirstId}<br/>
-            Round second: {round?.winnerSecondId}<br/>
+            {renderFinishersIfPresent()}
             {bets.map((bet) => (
                     <li key={bet.id}>{bet.playerId} wettet {bet.placingTeamId}</li>
                 )

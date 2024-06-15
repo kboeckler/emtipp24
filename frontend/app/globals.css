@@ -1,6 +1,7 @@
 :root {
     --main-bg-color: white;
-    --secondary-bg-color: #b0b0b0;
+    --secondary-bg-color: #ddd4d4;
+    --main-close-bg-color: #e0d8d8;
     --main-fg-color: black;
     --secondary-fg-color: #0024cf;
 }
@@ -8,6 +9,7 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --main-bg-color: black;
+        --main-close-bg-color: #1b1a1a;
         --secondary-bg-color: #5e5e5e;
         --main-fg-color: white;
         --secondary-fg-color: #70fbd0;
@@ -58,9 +60,10 @@ button {
 
 .tile-match {
     display: inline-flex;
+    background-color: var(--main-close-bg-color);
 }
 
-.landing-list-container{
+.list-container{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -71,6 +74,12 @@ button {
     border-color: var(--main-fg-color);
     border-width: 0.2em;
     width: 2em;
+}
+
+.select-team-bet {
+    border-color: var(--main-fg-color);
+    border-width: 0.2em;
+    width: 10em;
 }
 
 .is-busy {

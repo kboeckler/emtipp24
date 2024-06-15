@@ -28,11 +28,12 @@ export default async function MatchesList({roundId, inFuture, inPast}: MatchesLi
             matches = await findAllMatches()
             if (inFuture) {
                 matches = matches.filter(matchHasNotBegun)
+                matches.sort((a, b) => a.start.getTime() - b.start.getTime())
             }
             if (inPast) {
                 matches = matches.filter(matchHasBegun)
+                matches.sort((a, b) => b.start.getTime() - a.start.getTime())
             }
-            matches.sort((a, b) => a.start.getTime() - b.start.getTime())
         }
     }
 

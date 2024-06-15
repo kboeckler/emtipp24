@@ -6,26 +6,24 @@ import Link from "next/link";
 export default async function LandingContainer() {
     const authenticated = await isAuthenticated()
 
-    const renderNextMatchesIfPossible = function () {
+    const renderContentIfAuthenticated = function () {
         if (authenticated) {
             return (
                 <div>
                     <div>
                         Springe zu <br/>
                         <ul>
-                            <li>
-                                <Link href={"#future"}>Die nächsten Matches</Link>
-                            </li>
-                            <li><Link href={"#past"}>Die vergangenen Matches</Link></li>
+                            <li><Link href={"#future"}>Die nächsten Spiele</Link></li>
+                            <li><Link href={"#past"}>Die vergangenen Spiele</Link></li>
                         </ul>
                     </div>
-                    <div className={"landing-list-container"}>
+                    <div className={"list-container"}>
                         <div id={"future"}>
-                            <h2>Die nächsten Matches</h2>
+                            <h2>Die nächsten Spiele</h2>
                             <MatchesList inFuture={true}></MatchesList>
                         </div>
                         <div id={"past"}>
-                            <h2>Die vergangenen Matches</h2>
+                            <h2>Die vergangenen Spiele</h2>
                             <MatchesList inPast={true}></MatchesList>
                         </div>
                     </div>
@@ -47,7 +45,7 @@ export default async function LandingContainer() {
 
     return (
         <>
-            {renderNextMatchesIfPossible()}
+            {renderContentIfAuthenticated()}
             {renderLoginInstructionIfNeeded()}
         </>
     );

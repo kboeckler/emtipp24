@@ -1,7 +1,58 @@
 import type {DefaultSession, NextAuthConfig} from 'next-auth';
+import {JWT} from "@auth/core/jwt";
 
 export interface TokenSession extends DefaultSession {
     idToken: string
+}
+
+/**
+ * Takes a token, and returns a new token with updated
+ * `accessToken` and `accessTokenExpires`. If an error occurs,
+ * returns the old token and an error property
+ */
+async function refreshAccessToken(token: JWT) {
+    try {
+        const params: any = {
+            client_id: process.env.AUTH_GOOGLE_ID,
+            client_secret: process.env.AUTH_GOOGLE_SECRET,
+            grant_type: "refresh_token",
+            refresh_token: token.refreshToken,
+        }
+
+        const url =
+            "https://oauth2.googleapis.com/token?" +
+            new URLSearchParams(params)
+
+        const response = await fetch(url, {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            method: "POST",
+        })
+
+        const refreshedTokens = await response.json()
+
+        if (!response.ok) {
+            throw refreshedTokens
+        }
+
+        let newExpiresAt = Date.now() + (refreshedTokens.expires_in * 1000);
+        return {
+            ...token,
+            idToken: refreshedTokens.id_token,
+            expires_at: newExpiresAt,
+            accessToken: refreshedTokens.access_token,
+            refreshToken: refreshedTokens.refresh_token ?? token.refreshToken
+        }
+    } catch (error) {
+        console.log("Error refreshing the token")
+        console.log(error)
+
+        return {
+            ...token,
+            error: "RefreshAccessTokenError",
+        }
+    }
 }
 
 export const authConfig = {
@@ -27,14 +78,26 @@ export const authConfig = {
             console.log('Session triggered')
             return {
                 user: session.user,
-                expires: new Date(1000 * (token.expires_at as number)).toISOString(),
+                expires: new Date((token.expires_at as number)).toISOString(),
                 idToken: token.idToken + "",
             }
         },
         jwt({token, trigger, session, account}) {
-            if (account?.provider === "google") {
-                console.log('JWT triggered: ' + trigger)
-                return {...token, idToken: account?.id_token, expires_at: account.expires_at!!}
+            if (account == null) {
+                const expired: boolean = new Date().getTime() > new Date((token.expires_at as number)).getTime()
+                if (expired) {
+                    console.log("Token expired, trying to refresh it")
+                    return refreshAccessToken(token)
+                }
+            } else if (account.provider === "google") {
+                console.log('JWT with google provider triggered: ' + trigger)
+                return {
+                    ...token,
+                    idToken: account?.id_token,
+                    expires_at: account.expires_at!! * 1000,
+                    accessToken: account.access_token,
+                    refreshToken: account.refresh_token
+                }
             }
             return token
         }

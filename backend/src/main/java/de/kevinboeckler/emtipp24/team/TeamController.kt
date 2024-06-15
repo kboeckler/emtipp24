@@ -56,7 +56,7 @@ class TeamController(
     }
 
     @PostMapping("/teams/{teamId}/bets")
-    fun createBetForMatch(
+    fun createBetForTeam(
         @PathVariable teamId: String,
         @RequestBody bet: TeamBetModel
     ): ResponseEntity<TeamBetModel> {
@@ -66,7 +66,7 @@ class TeamController(
     }
 
     @PutMapping("/teams/{teamId}/bets/{betId}")
-    fun updateBetForMatch(
+    fun updateBetForTeam(
         @PathVariable teamId: String,
         @PathVariable betId: String,
         @RequestBody bet: TeamBetModel

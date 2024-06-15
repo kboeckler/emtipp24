@@ -83,9 +83,9 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
         if (currentPlayer?.id != undefined) {
             const valA = myBetA !== undefined ? "" + myBetA : ""
             const valB = myBetB !== undefined ? "" + myBetB : ""
-            console.log(saving)
             return (
                 <form>
+                    <div>Mein Tipp:</div>
                     <input
                         className={"input-bet " + (myBetA !== undefined ? "has-value " : "") + (saving ? "is-busy" : "")}
                         type={"number"}

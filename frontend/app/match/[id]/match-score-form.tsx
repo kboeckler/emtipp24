@@ -69,9 +69,10 @@ export default function MatchScoreForm({matchId}: { matchId: string }) {
         if (currentPlayer?.admin) {
             return (
                 <form>
-                    <input type={"number"} name={"scooreA"} onChange={scoreAChanged} value={myScoreA}
+                    <div>Match Ergebnis:</div>
+                    <input className={"input-bet"} type={"number"} name={"scooreA"} onChange={scoreAChanged} value={myScoreA}
                            disabled={saving}></input>
-                    <input type={"number"} name={"scoreB"} onChange={scoreBChanged} value={myScoreB}
+                    <input className={"input-bet"} type={"number"} name={"scoreB"} onChange={scoreBChanged} value={myScoreB}
                            disabled={saving}></input>
                 </form>
             )

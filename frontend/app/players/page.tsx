@@ -5,13 +5,24 @@ export default async function Players() {
 
     return (
         <main>
-            <h2>Player Overview</h2>
-            {players.map((player, index) => (
-                    <div key={player.id}>
-                        <span>{player.name} | {player.score}</span>
-                    </div>
-                )
-            )}
+            <h2>Spieler Übersicht</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Spieler</th>
+                    <th>Punkte</th>
+                </tr>
+                </thead>
+                <tbody>
+                {players.map((player, index) => (
+                        <tr key={player.id}>
+                            <td>{player.name}</td>
+                            <td>{player.score}</td>
+                        </tr>
+                    )
+                )}
+                </tbody>
+            </table>
         </main>
     )
 }

@@ -3,10 +3,11 @@
 import {Team} from "@/app/teams/team";
 import {ChangeEvent} from "react";
 
-export default function TeamField({teams, teamIdSelected, disabled, onChange}: {
+export default function TeamField({teams, teamIdSelected, disabled, saving, onChange}: {
     teams: Team[],
     teamIdSelected: string,
     disabled: boolean,
+    saving: boolean,
     onChange: (newTeamId: string) => void
 }) {
 
@@ -23,9 +24,12 @@ export default function TeamField({teams, teamIdSelected, disabled, onChange}: {
         return (<option value={""}>Team auswählen</option>)
     }
 
+    const myBetPresent = teamIdSelected !== ""
+
     return (
         <div>
             <select
+                className={"select-team-bet " + (myBetPresent ? "has-value " : "") + (saving ? "is-busy" : "")}
                 value={teamIdSelected}
                 onChange={onValueChange}
                 disabled={disabled}

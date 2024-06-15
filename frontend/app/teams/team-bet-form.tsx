@@ -59,14 +59,20 @@ export default function TeamBetForm() {
 
     return (
         <form>
-            <span>WINNER: </span> <TeamField teams={teams}
-                                             teamIdSelected={myBets.get('TOURNAMENT_WINNER')?.teamId || ''}
-                                             disabled={saving}
-                                             onChange={(newTeamId) => teamChanged('TOURNAMENT_WINNER', newTeamId)}></TeamField>
-            <span>SECOND: </span> <TeamField teams={teams}
-                                             teamIdSelected={myBets.get('TOURNAMENT_SECOND')?.teamId || ''}
-                                             disabled={saving}
-                                             onChange={(newTeamId) => teamChanged('TOURNAMENT_SECOND', newTeamId)}></TeamField>
+            <div>Meine Tipps:</div>
+            <br/>
+            <span>Europameister:</span>
+            <TeamField teams={teams}
+                       teamIdSelected={myBets.get('TOURNAMENT_WINNER')?.teamId || ''}
+                       disabled={saving}
+                       saving={saving}
+                       onChange={(newTeamId) => teamChanged('TOURNAMENT_WINNER', newTeamId)}></TeamField>
+            <span>Vize-Europameister:</span>
+            <TeamField teams={teams}
+                       teamIdSelected={myBets.get('TOURNAMENT_SECOND')?.teamId || ''}
+                       disabled={saving}
+                       saving={saving}
+                       onChange={(newTeamId) => teamChanged('TOURNAMENT_SECOND', newTeamId)}></TeamField>
         </form>
     )
 

@@ -69,7 +69,8 @@ export default function RoundBetForm({roundId}: { roundId: string }) {
 
     return (
         <form>
-            <TeamField teams={teams} teamIdSelected={myBetTeam} disabled={saving} onChange={teamChanged}></TeamField>
+            <TeamField teams={teams} teamIdSelected={myBetTeam} disabled={saving} saving={saving}
+                       onChange={teamChanged}></TeamField>
         </form>
     )
 

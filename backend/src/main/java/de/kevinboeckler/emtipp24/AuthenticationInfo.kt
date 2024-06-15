@@ -15,8 +15,6 @@ data class AuthenticationInfo(
     val userRepo: ExternalUserRepository
 ) {
     var email: String = ""
-    var name: String = ""
-    var picture: String = ""
     var player: Player? = null
 
     @Value("\${spring.security.oauth2.enabled}")
@@ -27,14 +25,10 @@ data class AuthenticationInfo(
         if (oAuth2Enabled) {
             val jwt = SecurityContextHolder.getContext().authentication.principal as Jwt
             email = jwt.claims["email"] as String
-            name = jwt.claims["name"] as String
-            picture = jwt.claims["picture"] as String
             val user = userRepo.findByEmail(email)
             player = user?.player ?: player
         } else {
             email = "guest@user.com"
-            name = "Guestuser"
-            picture = ""
         }
     }
 

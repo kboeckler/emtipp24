@@ -25,10 +25,10 @@ export default function RootLayout({
         <body className={inter.className}>
 
         <nav>
-            <Link href="/">Home</Link>
-            <Link href={"/players"}>Players</Link>
-            <Link href={"/teams"}>Teams</Link>
-            <Link href={"/matches"}>Matches</Link>
+            <Link href="/">Start</Link>
+            <Link href={"/players"}>Spieler</Link>
+            <Link href={"/teams"}>Mannschaften</Link>
+            <Link href={"/matches"}>Spiele</Link>
             <CurrentPlayer></CurrentPlayer>
             <SignInForm></SignInForm>
         </nav>
