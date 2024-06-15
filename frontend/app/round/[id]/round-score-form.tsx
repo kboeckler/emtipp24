@@ -55,13 +55,15 @@ export default function RoundScoreForm({roundId}: { roundId: string }) {
         setSaving(false)
     }
 
-    const renderFormIfPossible = function() {
+    const renderFormIfPossible = function () {
         if (player?.admin) {
             return (
                 <form>
                     <TeamField teams={teams} teamIdSelected={round?.winnerFirstId || ""} disabled={saving}
+                               saving={saving}
                                onChange={winnerFirstChanged}></TeamField>
                     <TeamField teams={teams} teamIdSelected={round?.winnerSecondId || ""} disabled={saving}
+                               saving={saving}
                                onChange={winnerSecondChanged}></TeamField>
                 </form>
             )
