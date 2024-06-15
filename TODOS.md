@@ -1,7 +1,7 @@
 - [x] Validate & filter
-- [ ] Solve untrusted host
-- [ ] Configure OAuth2
-- [ ] Remove localhost
-- [ ] Configure database
+- [x] Solve untrusted host
+- [x] Configure OAuth2
+- [x] Remove localhost
+- [x] Configure database
 - [ ] Calculate points
 - [ ] Calculate round teams

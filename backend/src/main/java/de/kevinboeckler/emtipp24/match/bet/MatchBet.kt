@@ -2,10 +2,7 @@ package de.kevinboeckler.emtipp24.match.bet
 
 import de.kevinboeckler.emtipp24.match.Match
 import de.kevinboeckler.emtipp24.player.Player
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 
 @Entity
 class MatchBet(
@@ -14,7 +11,7 @@ class MatchBet(
     val id: String,
 
     @ManyToOne
-    @JoinColumn(name = "match")
+    @JoinColumn(name = "game")
     val match: Match,
 
     @ManyToOne

@@ -2,13 +2,11 @@ package de.kevinboeckler.emtipp24.match;
 
 import de.kevinboeckler.emtipp24.round.Round
 import de.kevinboeckler.emtipp24.team.Team
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 import java.time.OffsetDateTime
 
 @Entity
+@Table(name = "game")
 class Match(
 
     @Id

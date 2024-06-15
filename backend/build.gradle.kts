@@ -25,6 +25,7 @@ dependencies {
 
     implementation("org.hibernate:hibernate-core:6.5.2.Final")
     implementation("com.h2database:h2:2.2.224:")
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.4.0")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
