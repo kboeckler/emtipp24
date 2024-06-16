@@ -9,7 +9,7 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --main-bg-color: black;
-        --main-close-bg-color: #1b1a1a;
+        --main-close-bg-color: #282525;
         --secondary-bg-color: #5e5e5e;
         --main-fg-color: white;
         --secondary-fg-color: #70fbd0;

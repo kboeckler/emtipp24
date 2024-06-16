@@ -8,7 +8,7 @@ import SignInForm from "@/app/login/sign-in-form";
 const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
-    title: "emtipp24",
+    title: "EM-Tipp 24",
     description: "Tippspiel der Fußball Europameisterschft 2024",
 };
 
@@ -19,9 +19,6 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <head>
-            <title>EM-Tipp24</title>
-        </head>
         <body className={inter.className}>
 
         <nav>

@@ -10,7 +10,6 @@ plugins {
 }
 
 group = "de.kevinboeckler.emtipp24"
-version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()

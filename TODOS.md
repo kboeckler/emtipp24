@@ -3,5 +3,7 @@
 - [x] Configure OAuth2
 - [x] Remove localhost
 - [x] Configure database
+- [ ] Improve UX of match bet
 - [ ] Calculate points
+- [ ] Improve UX of players
 - [ ] Calculate round teams
