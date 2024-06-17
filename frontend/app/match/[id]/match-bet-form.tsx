@@ -94,7 +94,7 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
             const valA = myBetA !== undefined ? "" + myBetA : ""
             const valB = myBetB !== undefined ? "" + myBetB : ""
             return (
-                <form>
+                <form className={"inline"}>
                     <div>Mein Tipp:</div>
                     <input
                         className={"input-bet " + (myBetA !== undefined ? "has-value " : "") + (saving ? "is-busy" : "")}

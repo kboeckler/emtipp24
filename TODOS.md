@@ -4,6 +4,6 @@
 - [x] Configure database
 - [x] Improve UX of match bet
 - [x] Calculate match bet points
-- [ ] Improve UX of matches/players
+- [x] Improve UX of matches/players
 - [ ] Calculate team bet points
 - [ ] Improve UX of teams

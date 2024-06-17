@@ -58,7 +58,7 @@ export default function MatchDetails({matchId}: { matchId: string }) {
         if (bet.reward) {
             return (
                 <>
-                    ({bet.reward})
+                    {bet.reward}
                 </>
             )
         }
@@ -68,13 +68,28 @@ export default function MatchDetails({matchId}: { matchId: string }) {
         if (matchHasBegun()) {
             return <div>
                 <h3>Andere haben getippt:</h3>
-                {otherBets.map((bet) => {
-                    const otherPlayerName = players.get(bet.playerId)?.name || "?"
-                    return (
-                        <li key={bet.id}>{otherPlayerName} sagt {bet.teamA} : {bet.teamB} {renderRewardIfPresent(bet)}</li>
-                    )
-                }
-                )}
+                <table className={"tile-table"}>
+                    <thead>
+                    <tr>
+                        <th>Spieler</th>
+                        <th>Tipp</th>
+                        <th>Punkte</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {otherBets.map((bet) => {
+                            const otherPlayerName = players.get(bet.playerId)?.name || "?"
+                            return (
+                                <tr key={bet.id}>
+                                    <td>{otherPlayerName}</td>
+                                    <td>{bet.teamA} : {bet.teamB}</td>
+                                    <td>{renderRewardIfPresent(bet)}</td>
+                                </tr>
+                            )
+                        }
+                    )}
+                    </tbody>
+                </table>
             </div>;
         }
     }

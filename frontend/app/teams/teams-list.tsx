@@ -7,7 +7,7 @@ export default async function TeamsList() {
     return (
         <div className={"tile-list"}>
             {teams.map((team, index) => (
-                    <div className={"tile-match"} key={team.id}><Link href={`/team/${team.id}`}>{team.name}</Link>
+                    <div className={"tile"} key={team.id}><Link href={`/team/${team.id}`}>{team.name}</Link>
                     </div>
                 )
             )}

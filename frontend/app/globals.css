@@ -86,7 +86,7 @@ button:hover {
     gap: 1em;
 }
 
-.tile-match {
+.tile {
     display: inline-flex;
     flex-direction: column;
     background-color: var(--main-close-bg-color);
@@ -113,6 +113,26 @@ button:hover {
     align-items: center;
 }
 
+.tile-table {
+    display: inline-block;
+    border-spacing: 0.2em;
+    border-collapse: separate;
+}
+
+.tile-table > * {
+    background-color: var(--main-close-bg-color);
+}
+
+.tile-table > * > * > * {
+    padding: 0.3em;
+}
+
+.tile-score {
+    margin-left: 0.5em;
+    font-size: 1.2em;
+    color: var(--secondary-fg-color);
+}
+
 .input-bet {
     width: 2em;
 }
@@ -132,6 +152,10 @@ button:hover {
 
 .img-flag {
     margin: 0.2em 0.5em;
+}
+
+.inline {
+    display: inline-block;
 }
 
 /* Layouts */
