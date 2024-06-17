@@ -222,6 +222,7 @@ export async function findAllRounds(): Promise<Round[]> {
             const rounds: Round[] = []
             for (const item of data) {
                 const roundItem: Round = item
+                roundItem.start = new Date(roundItem.start)
                 rounds.push(roundItem)
             }
             return rounds
@@ -235,6 +236,7 @@ export async function readRound(id: string): Promise<Round> {
         .then(parseResponse)
         .then(data => {
             const round: Round = data
+            round.start = new Date(round.start)
             return round
         })
 }
@@ -252,6 +254,7 @@ export async function updateRound(round: Round): Promise<Round> {
         .then(parseResponse)
         .then(data => {
             const bet: Round = data
+            round.start = new Date(round.start)
             return bet
         })
 }

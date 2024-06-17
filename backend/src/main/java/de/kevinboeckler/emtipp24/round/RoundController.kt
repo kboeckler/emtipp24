@@ -1,6 +1,7 @@
 package de.kevinboeckler.emtipp24.round
 
 import de.kevinboeckler.emtipp24.EmAuthorityFilter.Companion.ADMIN_ROLE
+import de.kevinboeckler.emtipp24.match.MatchRepository
 import de.kevinboeckler.emtipp24.player.PlayerRepository
 import de.kevinboeckler.emtipp24.round.bet.RoundBet
 import de.kevinboeckler.emtipp24.round.bet.RoundBetModel
@@ -16,6 +17,7 @@ import java.util.*
 @RestController
 class RoundController(
     val roundRepo: RoundRepository,
+    val matchRepo: MatchRepository,
     val betRepo: RoundBetRepository,
     val playerRepo: PlayerRepository,
     val teamRepo: TeamRepository
@@ -62,8 +64,10 @@ class RoundController(
         return ResponseEntity(bet, HttpStatus.OK)
     }
 
-    private fun map(round: Round) =
-        RoundModel(round.id, round.name, round.winnerFirst?.id, round.winnerSecond?.id)
+    private fun map(round: Round): RoundModel {
+        val start = matchRepo.findByRound_Id(round.id).minOf { it.start }
+        return RoundModel(round.id, start, round.name, round.winnerFirst?.id, round.winnerSecond?.id)
+    }
 
     private fun mapBet(bet: RoundBet) =
         RoundBetModel(bet.id, bet.round.id, bet.player.id, bet.placement, bet.placingTeam.id)

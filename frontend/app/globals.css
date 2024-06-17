@@ -1,6 +1,6 @@
 :root {
     --main-bg-color: white;
-    --secondary-bg-color: #ddd4d4;
+    --secondary-bg-color: #bbadad;
     --main-close-bg-color: #e0d8d8;
     --main-fg-color: black;
     --secondary-fg-color: #0024cf;
@@ -18,7 +18,7 @@
 
 body {
     background-color: var(--main-bg-color);
-    color: var(--main-fg-color)
+    color: var(--main-fg-color);
 }
 
 /* Styles of components */
@@ -38,13 +38,25 @@ a:active, a:hover, a:focus {
 }
 
 select, input {
-    color: var(--main-fg-color);
     background-color: var(--secondary-bg-color);
-    font-size: medium;
+    border-color: var(--main-bg-color);
+    border-width: 0 0 0.2em 0;
+    color: var(--main-fg-color);
+    font-size: 1.2em;
+    height: 30px;
+    line-height: 30px;
+    outline: none !important;
+    width: 100%;
+    text-align: center;
+}
+
+input::-moz-focus-inner {
+    border: 0;
 }
 
 select:disabled, input:disabled {
     background-color: var(--main-bg-color);
+    border: 0;
 }
 
 button {
@@ -53,32 +65,44 @@ button {
 
 /* Custom component classes */
 .tile-list {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     gap: 1em;
 }
 
 .tile-match {
     display: inline-flex;
+    flex-direction: column;
     background-color: var(--main-close-bg-color);
+    padding: 0.5em;
 }
 
-.list-container{
+.list-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 2em;
 }
 
+.versus-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5em;
+}
+
+.versus-container > * {
+    display: inline-flex;
+    align-items: center;
+}
+
 .input-bet {
-    border-color: var(--main-fg-color);
-    border-width: 0.2em;
     width: 2em;
 }
 
 .select-team-bet {
     border-color: var(--main-fg-color);
-    border-width: 0.2em;
     width: 10em;
 }
 
@@ -88,6 +112,10 @@ button {
 
 .has-value {
     border-color: green;
+}
+
+.img-flag {
+    margin: 0.2em 0.5em;
 }
 
 /* Layouts */

@@ -40,6 +40,11 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
     const teamAChanged = async function (e: ChangeEvent) {
         const inputField = e.target as HTMLInputElement;
         const teamAValue = Number(inputField.value)
+
+        if (teamAValue < 0) {
+            return
+        }
+
         setMyBetA(teamAValue)
         setSaving(true)
 
@@ -59,6 +64,11 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
     const teamBChanged = async function (e: ChangeEvent) {
         const inputField = e.target as HTMLInputElement;
         const teamBValue = Number(inputField.value)
+
+        if (teamBValue < 0) {
+            return
+        }
+
         setMyBetB(teamBValue)
         setSaving(true)
 
@@ -91,6 +101,7 @@ export default function MatchBetForm({matchId}: { matchId: string }) {
                         type={"number"}
                         name={"teamA"} onChange={teamAChanged} value={valA}
                         disabled={saving || matchHasBegun()}></input>
+                    <span>:</span>
                     <input
                         className={"input-bet " + (myBetB !== undefined ? "has-value " : "") + (saving ? "is-busy" : "")}
                         type={"number"}

@@ -3,11 +3,13 @@
 import {Match} from "@/app/matches/match";
 import {Bet} from "@/app/bet";
 import {useEffect, useRef, useState} from "react";
-import {MyPlayer, readBetsForMatch, readMatch} from "@/app/actions/repo";
+import {findAllPlayers, MyPlayer, readBetsForMatch, readMatch} from "@/app/actions/repo";
+import {Player} from "@/app/player/player";
 
 export default function MatchDetails({matchId}: { matchId: string }) {
     const [match, setMatch] = useState<Match>()
     const [otherBets, setOtherBets] = useState<Bet[]>([])
+    const [players, setPlayers] = useState<Map<string, Player>>(new Map())
 
     const initialized = useRef(false)
     useEffect(() => {
@@ -24,6 +26,13 @@ export default function MatchDetails({matchId}: { matchId: string }) {
                             }
                         }
                         setOtherBets(val)
+                    })
+                    findAllPlayers().then(players => {
+                        const playerMap: Map<string, Player> = new Map()
+                        for (const player of players) {
+                            playerMap.set(player.id, player)
+                        }
+                        setPlayers(playerMap)
                     })
                 }
             })
@@ -55,10 +64,13 @@ export default function MatchDetails({matchId}: { matchId: string }) {
     function renderOtherBetsIfPossible() {
         if (matchHasBegun()) {
             return <div>
-                <div>Andere haben getippt:</div>
-                {otherBets.map((bet) => (
-                        <li key={bet.id}>{bet.teamA} : {bet.teamB} {renderRewardIfPresent(bet)}</li>
+                <h3>Andere haben getippt:</h3>
+                {otherBets.map((bet) => {
+                    const otherPlayerName = players.get(bet.playerId)?.name || "?"
+                    return (
+                        <li key={bet.id}>{otherPlayerName} sagt {bet.teamA} : {bet.teamB} {renderRewardIfPresent(bet)}</li>
                     )
+                }
                 )}
             </div>;
         }
@@ -66,9 +78,6 @@ export default function MatchDetails({matchId}: { matchId: string }) {
 
     return (
         <div>
-            <div>Start: {match?.start?.toDateString()} {match?.start?.toLocaleTimeString()}</div>
-            <div>Gruppe: {match?.round.name}</div>
-            <h3>{match?.teamA?.name} gegen {match?.teamB?.name}</h3>
             {renderScoreIfPresent()}
             {renderOtherBetsIfPossible()}
         </div>

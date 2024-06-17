@@ -20,11 +20,11 @@ export default async function LandingContainer() {
                     <div className={"list-container"}>
                         <div id={"future"}>
                             <h2>Die nächsten Spiele</h2>
-                            <MatchesList inFuture={true}></MatchesList>
+                            <MatchesList inFuture={true} maxItems={5}></MatchesList>
                         </div>
                         <div id={"past"}>
                             <h2>Die vergangenen Spiele</h2>
-                            <MatchesList inPast={true}></MatchesList>
+                            <MatchesList inPast={true} maxItems={5}></MatchesList>
                         </div>
                     </div>
                 </div>

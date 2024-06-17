@@ -1,15 +1,15 @@
 import {findAllMatches, findMatchesForRound, MyPlayer} from "@/app/actions/repo";
-import Link from "next/link";
-import MatchItem from "@/app/matches/match-item";
 import {Match} from "@/app/matches/match";
+import MatchTile from "@/app/matches/match-tile";
 
 interface MatchesListProps {
     roundId?: String
     inFuture?: Boolean
     inPast?: Boolean
+    maxItems?: Number
 }
 
-export default async function MatchesList({roundId, inFuture, inPast}: MatchesListProps) {
+export default async function MatchesList({roundId, inFuture, inPast, maxItems}: MatchesListProps) {
     let matches: Match[] = []
 
     function matchHasBegun(match: Match) {
@@ -34,15 +34,21 @@ export default async function MatchesList({roundId, inFuture, inPast}: MatchesLi
                 matches = matches.filter(matchHasBegun)
                 matches.sort((a, b) => b.start.getTime() - a.start.getTime())
             }
+            if (maxItems) {
+                const matchesMaxed: Match[] = []
+                for (let i = 0; i < Math.min(matches.length, maxItems.valueOf()); i++) {
+                    const item = matches[i]
+                    matchesMaxed.push(item)
+                }
+                matches = matchesMaxed
+            }
         }
     }
 
     return (
         <div className={"tile-list"}>
             {matches.map((match, index) => (
-                    <div className={"tile-match"} key={match.id}><Link href={`/match/${match.id}`}><MatchItem
-                        id={match.id}></MatchItem></Link>
-                    </div>
+                    <MatchTile key={match.id} id={match.id}></MatchTile>
                 )
             )}
         </div>
