@@ -28,11 +28,12 @@ class EmAuthorityFilter(val authInfo: AuthenticationInfo) : OncePerRequestFilter
     }
 
     private fun createContextWithAuthorities(originalContext: SecurityContext): SecurityContext {
-        val newAuthorities = originalContext.authentication.authorities.toMutableList()
+        val authentication = originalContext.authentication ?: return originalContext
+        val newAuthorities = authentication.authorities.toMutableList()
         if (authInfo.player?.admin == true) {
             newAuthorities.add(SimpleGrantedAuthority(ADMIN_ROLE))
         }
-        val newAuthentication = AuthenticationWrapper(originalContext.authentication, newAuthorities)
+        val newAuthentication = AuthenticationWrapper(authentication, newAuthorities)
         return SecurityContextImpl(newAuthentication)
     }
 

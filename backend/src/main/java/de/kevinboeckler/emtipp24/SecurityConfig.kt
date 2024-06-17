@@ -25,7 +25,9 @@ class SecurityConfig {
     fun filterChain(http: HttpSecurity, authenticationFilter: EmAuthorityFilter): SecurityFilterChain {
         if (oAuth2Enabled) {
             http
-                .authorizeHttpRequests { it.anyRequest().authenticated() }
+                .authorizeHttpRequests {
+                    it.requestMatchers("/version").permitAll().anyRequest().authenticated()
+                }
                 .oauth2ResourceServer { it.jwt(Customizer.withDefaults()) }
             http.addFilterAfter(authenticationFilter, BearerTokenAuthenticationFilter::class.java)
         } else {

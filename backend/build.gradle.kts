@@ -11,6 +11,10 @@ plugins {
 
 group = "de.kevinboeckler.emtipp24"
 
+springBoot {
+    buildInfo()
+}
+
 repositories {
     mavenCentral()
 }
@@ -50,6 +54,7 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs += "-Xjsr305=strict"
     }
 }
+
 kotlin {
     jvmToolchain(17)
 }

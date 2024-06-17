@@ -40,6 +40,18 @@ export async function isAuthenticated(): Promise<boolean> {
     })
 }
 
+export async function getVersion(): Promise<string> {
+    return fetch("http://localhost:8080/version")
+        .then(parseResponse)
+        .catch(_ => undefined)
+        .then(data => {
+            if (data) {
+                return data.version
+            }
+            return "?"
+        })
+}
+
 function parseResponse(res: Response) {
     if (!res.ok) {
         console.log("Request failed: " + res.url + " : " + res.status + " " + res.statusText)

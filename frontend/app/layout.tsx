@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import CurrentPlayer from "@/app/player/current-player";
 import SignInForm from "@/app/login/sign-in-form";
+import SoftwareInfo from "@/app/info/software-info";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -28,6 +29,7 @@ export default function RootLayout({
             <Link href={"/matches"}>Spiele</Link>
             <CurrentPlayer></CurrentPlayer>
             <SignInForm></SignInForm>
+            <SoftwareInfo></SoftwareInfo>
         </nav>
 
         <h1>EM Tippspiel 24</h1>
