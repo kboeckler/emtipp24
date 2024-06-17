@@ -1,9 +1,9 @@
-- [x] Validate & filter
 - [x] Solve untrusted host
 - [x] Configure OAuth2
 - [x] Remove localhost
 - [x] Configure database
 - [x] Improve UX of match bet
-- [ ] Calculate points
-- [ ] Improve UX of players
-- [ ] Calculate round teams
+- [x] Calculate match bet points
+- [ ] Improve UX of matches/players
+- [ ] Calculate team bet points
+- [ ] Improve UX of teams

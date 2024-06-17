@@ -4,7 +4,9 @@ import de.kevinboeckler.emtipp24.EmAuthorityFilter.Companion.ADMIN_ROLE
 import de.kevinboeckler.emtipp24.match.bet.MatchBet
 import de.kevinboeckler.emtipp24.match.bet.MatchBetModel
 import de.kevinboeckler.emtipp24.match.bet.MatchBetRepository
+import de.kevinboeckler.emtipp24.match.bet.MatchBetService
 import de.kevinboeckler.emtipp24.player.PlayerRepository
+import de.kevinboeckler.emtipp24.player.PlayerService
 import de.kevinboeckler.emtipp24.round.Round
 import de.kevinboeckler.emtipp24.round.RoundModel
 import de.kevinboeckler.emtipp24.round.RoundRepository
@@ -27,7 +29,9 @@ class MatchController(
     val playerRepo: PlayerRepository,
     val roundRepo: RoundRepository,
     val teamRepo: TeamRepository,
-    val roleRepository: RoleRepository
+    val roleRepository: RoleRepository,
+    val betService: MatchBetService,
+    val playerService: PlayerService
 ) {
 
     @GetMapping("/matches")
@@ -50,7 +54,10 @@ class MatchController(
     @Secured(ADMIN_ROLE)
     @PutMapping("/matches/{id}")
     fun updateMatch(@PathVariable id: String, @RequestBody match: MatchModel): MatchModel {
-        return map(matchRepo.save(map(match)))
+        val updatedMatch = matchRepo.save(map(match))
+        betService.updateBetsForMatch(updatedMatch)
+        playerService.updatePlayerScore()
+        return map(updatedMatch)
     }
 
     @GetMapping("/matches/{matchId}/bets")

@@ -42,7 +42,10 @@ export default function MatchDetails({matchId}: { matchId: string }) {
     const renderScoreIfPresent = function () {
         if (match?.scoreA || match?.scoreB) {
             return (
-                <div>{match?.scoreA} : {match?.scoreB}</div>
+                <div>
+                    <h3>Ergebnis des Spiels:</h3>
+                    {match?.scoreA} : {match?.scoreB}
+                </div>
             )
         }
     }

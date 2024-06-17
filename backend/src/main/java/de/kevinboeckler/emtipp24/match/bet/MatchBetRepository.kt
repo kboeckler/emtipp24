@@ -6,4 +6,6 @@ interface MatchBetRepository : CrudRepository<MatchBet, String> {
 
     fun findAllByMatch_Id(matchId: String): Iterable<MatchBet>
 
+    fun findAllByPlayer_Id(playerId: String): Iterable<MatchBet>
+
 }

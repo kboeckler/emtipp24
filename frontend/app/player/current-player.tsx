@@ -35,14 +35,14 @@ export default function CurrentPlayer() {
         if (currentPlayer !== undefined) {
             return (
                 <div>
-                    Hallo {currentPlayer.name}
+                    {currentPlayer.name}
                     {renderAdminIfSo()}
                     <br/>
                 </div>
             )
         } else {
             return (<div>
-                Nicht eingeloggt
+                Nicht angemeldet
             </div>)
         }
     }

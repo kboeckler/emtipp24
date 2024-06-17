@@ -29,6 +29,7 @@ export default function RootLayout({
             <Link href={"/matches"}>Spiele</Link>
             <CurrentPlayer></CurrentPlayer>
             <SignInForm></SignInForm>
+            <Link href={"/rules"}>Regeln</Link>
             <SoftwareInfo></SoftwareInfo>
         </nav>
 

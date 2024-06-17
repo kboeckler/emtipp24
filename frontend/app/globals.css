@@ -50,6 +50,10 @@ select, input {
     text-align: center;
 }
 
+input:active, input:focus, select:active, select:focus {
+    border-color: var(--secondary-fg-color);
+}
+
 input::-moz-focus-inner {
     border: 0;
 }
@@ -60,8 +64,20 @@ select:disabled, input:disabled {
 }
 
 button {
+    display: inline-block;
+    outline: 0;
     cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    height: 100%;
+    background-color: var(--secondary-bg-color);
+    color: var(--secondary-fg-color);
 }
+
+button:hover {
+    background: var(--main-close-bg-color);
+}
+
 
 /* Custom component classes */
 .tile-list {
