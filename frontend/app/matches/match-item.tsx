@@ -1,32 +1,27 @@
-import {readMatch} from "@/app/actions/repo";
 import Image from 'next/image'
+import {Match} from "@/app/matches/match";
 
-interface MatchItemProps {
-    id: string
-}
+export default async function MatchItem({match}: { match: Match }) {
 
-export default async function MatchItem({id}: MatchItemProps) {
-    const match = await readMatch(id)
-
-    const renderVersusOrPlaceholder = function() {
+    const renderVersusOrPlaceholder = function () {
         if (match.teamA || match.teamB) {
             return (
                 <div className={"versus-container"}>
-                    <span>
+                    <div>
                         <Image className={"img-flag"}
                                src={"https://img.uefa.com/imgml/flags/50x50/" + match.teamA?.id + ".png"} width={30}
                                height={30}
                                alt={"Flagge " + match.teamA?.name}></Image>
                         {match.teamA?.name}
-                    </span>
-                        <span>x</span>
-                        <span>
+                    </div>
+                    <div>x</div>
+                    <div>
                         {match.teamB?.name}
-                            <Image className={"img-flag"}
-                                   src={"https://img.uefa.com/imgml/flags/50x50/" + match.teamB?.id + ".png"} width={30}
-                                   height={30}
-                                   alt={"Flagge " + match.teamB?.name}></Image>
-                    </span>
+                        <Image className={"img-flag"}
+                               src={"https://img.uefa.com/imgml/flags/50x50/" + match.teamB?.id + ".png"} width={30}
+                               height={30}
+                               alt={"Flagge " + match.teamB?.name}></Image>
+                    </div>
                 </div>
             )
         } else {
@@ -41,7 +36,7 @@ export default async function MatchItem({id}: MatchItemProps) {
     return (
         <div>
             <div>{match.round.name}</div>
-            <div>{match?.start?.toDateString()} {match?.start?.toLocaleTimeString()}</div>
+            <div>{match.start.toDateString()} {match.start.toLocaleTimeString()}</div>
             {renderVersusOrPlaceholder()}
         </div>
     )

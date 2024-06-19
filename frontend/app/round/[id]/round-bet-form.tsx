@@ -50,7 +50,6 @@ export default function RoundBetForm({roundId}: { roundId: string }) {
         if (newTeamId === "") {
             return
         }
-        console.log('A: ' + newTeamId)
         setMyBetTeam(newTeamId)
         setSaving(true)
 

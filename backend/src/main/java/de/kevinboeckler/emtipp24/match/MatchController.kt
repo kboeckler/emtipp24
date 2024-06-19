@@ -60,6 +60,11 @@ class MatchController(
         return map(updatedMatch)
     }
 
+    @GetMapping("/matchbets")
+    fun allBets(): List<MatchBetModel> {
+        return betRepo.findAll().map(this::mapBet).toList()
+    }
+
     @GetMapping("/matches/{matchId}/bets")
     fun betsForMatch(@PathVariable matchId: String): List<MatchBetModel> {
         return betRepo.findAllByMatch_Id(matchId).map(this::mapBet).toList()

@@ -141,6 +141,7 @@ export async function findMatchesForRound(roundId: String): Promise<Match[]> {
             const matches: Match[] = []
             for (const item of data) {
                 const matchItem: Match = item
+                matchItem.start = new Date(matchItem.start)
                 matches.push(matchItem)
             }
             return matches
@@ -173,6 +174,21 @@ export async function updateMatch(match: Match): Promise<Match> {
         .then(data => {
             const bet: Match = data
             return bet
+        })
+}
+
+// GET /matchbets
+export async function findAllMatchBets(): Promise<Bet[]> {
+    return cfg()
+        .then(cfg => fetch('http://localhost:8080/matchbets', cfg))
+        .then(parseResponse)
+        .then(data => {
+            const bets: Bet[] = []
+            for (const item of data) {
+                const bet: Bet = item
+                bets.push(bet)
+            }
+            return bets
         })
 }
 

@@ -3,11 +3,14 @@
 import {Match} from "@/app/matches/match";
 import {Bet} from "@/app/bet";
 import {useEffect, useRef, useState} from "react";
-import {findAllPlayers, MyPlayer, readBetsForMatch, readMatch} from "@/app/actions/repo";
+import {findAllPlayers} from "@/app/actions/repo";
 import {Player} from "@/app/player/player";
 
-export default function MatchDetails({matchId}: { matchId: string }) {
-    const [match, setMatch] = useState<Match>()
+export default function MatchDetails({player, match, matchBets}: {
+    player: Player,
+    match: Match,
+    matchBets: Bet[]
+}) {
     const [otherBets, setOtherBets] = useState<Bet[]>([])
     const [players, setPlayers] = useState<Map<string, Player>>(new Map())
 
@@ -15,29 +18,22 @@ export default function MatchDetails({matchId}: { matchId: string }) {
     useEffect(() => {
         if (!initialized.current) {
             initialized.current = true
-            MyPlayer().then(myPlayer => {
-                if (myPlayer !== undefined) {
-                    readMatch(matchId).then(matches => setMatch(matches))
-                    readBetsForMatch(matchId).then(bets => {
-                        const val: Bet[] = []
-                        for (const bet of bets) {
-                            if (bet.playerId !== myPlayer.id) {
-                                val.push(bet)
-                            }
-                        }
-                        setOtherBets(val)
-                    })
-                    findAllPlayers().then(players => {
-                        const playerMap: Map<string, Player> = new Map()
-                        for (const player of players) {
-                            playerMap.set(player.id, player)
-                        }
-                        setPlayers(playerMap)
-                    })
+            const val: Bet[] = []
+            for (const bet of matchBets) {
+                if (bet.playerId !== player.id) {
+                    val.push(bet)
                 }
+            }
+            setOtherBets(val)
+            findAllPlayers().then(players => {
+                const playerMap: Map<string, Player> = new Map()
+                for (const player of players) {
+                    playerMap.set(player.id, player)
+                }
+                setPlayers(playerMap)
             })
         }
-    }, [matchId])
+    }, [matchBets, match.id, player.id])
 
     const renderScoreIfPresent = function () {
         if (match?.scoreA || match?.scoreB) {

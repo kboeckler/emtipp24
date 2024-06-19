@@ -1,6 +1,7 @@
-import {findAllMatches, findMatchesForRound, MyPlayer} from "@/app/actions/repo";
+import {findAllMatchBets, findAllMatches, findMatchesForRound, MyPlayer} from "@/app/actions/repo";
 import {Match} from "@/app/matches/match";
 import MatchTile from "@/app/matches/match-tile";
+import {Bet} from "@/app/bet";
 
 interface MatchesListProps {
     roundId?: String
@@ -11,6 +12,7 @@ interface MatchesListProps {
 
 export default async function MatchesList({roundId, inFuture, inPast, maxItems}: MatchesListProps) {
     let matches: Match[] = []
+    const betsPerMatch: Map<string, Bet[]> = new Map<string, Bet[]>()
 
     function matchHasBegun(match: Match) {
         return match?.start !== undefined && match.start < new Date();
@@ -43,14 +45,27 @@ export default async function MatchesList({roundId, inFuture, inPast, maxItems}:
                 matches = matchesMaxed
             }
         }
+        const matchBets: Bet[] = await findAllMatchBets()
+        for (const matchBet of matchBets) {
+            const betsOfThatMatch = betsPerMatch.get(matchBet.matchId) || []
+            betsOfThatMatch.push(matchBet)
+            betsPerMatch.set(matchBet.matchId, betsOfThatMatch)
+        }
     }
 
-    return (
-        <div className={"tile-list"}>
-            {matches.map((match, index) => (
-                    <MatchTile key={match.id} id={match.id}></MatchTile>
-                )
-            )}
-        </div>
-    )
+    function renderListIfPossible() {
+        if (currentPlayer !== undefined) {
+            return (
+                <div className={"tile-list"}>
+                    {matches.map((match, index) => (
+                            <MatchTile key={match.id} player={currentPlayer} match={match}
+                                       matchBets={betsPerMatch.get(match.id) || []}></MatchTile>
+                        )
+                    )}
+                </div>
+            );
+        }
+    }
+
+    return renderListIfPossible()
 }

@@ -34,7 +34,6 @@ export default function MatchScoreForm({matchId}: { matchId: string }) {
     const scoreAChanged = async function (e: ChangeEvent) {
         const inputField = e.target as HTMLInputElement;
         const scoreAValue = Number(inputField.value)
-        console.log('A: ' + scoreAValue)
         setMyScoreA(scoreAValue)
         setSaving(true)
 
@@ -51,7 +50,6 @@ export default function MatchScoreForm({matchId}: { matchId: string }) {
     const scoreBChanged = async function (e: ChangeEvent) {
         const inputField = e.target as HTMLInputElement;
         const scoreBValue = Number(inputField.value)
-        console.log('B: ' + scoreBValue)
         setMyScoreB(scoreBValue)
         setSaving(true)
 
