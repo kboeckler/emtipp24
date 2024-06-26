@@ -4,7 +4,7 @@ import {Match} from "@/app/matches/match";
 export default async function MatchItem({match}: { match: Match }) {
 
     const renderVersusOrPlaceholder = function () {
-        if (match.teamA || match.teamB) {
+        if (match.teamA && match.teamB) {
             return (
                 <div className={"versus-container"}>
                     <div>

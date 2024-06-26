@@ -2,6 +2,7 @@ import MatchScoreForm from "@/app/match/[id]/match-score-form";
 import MatchTile from "@/app/matches/match-tile";
 import MatchDetails from "@/app/match/[id]/match-details";
 import {findCurrentPlayer, readBetsForMatch, readMatch} from "@/app/actions/repo";
+import MatchTeamsForm from "@/app/match/[id]/match-teams-form";
 
 export default async function MatchDetailsPage({params}: { params: { id: string } }) {
     const {id} = params
@@ -24,6 +25,7 @@ export default async function MatchDetailsPage({params}: { params: { id: string 
         <main>
             <h2>Spiel Detail</h2>
             {renderIfPossible()}
+            <MatchTeamsForm matchId={id}></MatchTeamsForm>
             <MatchScoreForm matchId={id}></MatchScoreForm>
         </main>
     );
